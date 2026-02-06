@@ -6,6 +6,7 @@
   <title>SuperSwink</title>
   <meta name="description" content="A modern hybrid framework for managing useful agents. Multi-platform adapters, event-driven architecture, and extensible command system.">
   <style>
+    * { box-sizing: border-box; }
     body {
       font-family: system-ui, -apple-system, sans-serif;
       display: flex;
@@ -18,10 +19,18 @@
     }
     .container {
       text-align: center;
-      padding: 10px 2rem 2rem 2rem;
+      padding: 10px 1.5rem 2rem 1.5rem;
+      max-width: 100%;
     }
     h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-    p { color: #8b949e; font-size: 1.2rem; max-width: 500px; margin: 0 auto; padding: 0 1rem; }
+    p {
+      color: #8b949e;
+      font-size: 1.2rem;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      word-wrap: break-word;
+    }
     .definition {
       font-size: 0.9rem;
       color: #6e7681;
@@ -31,6 +40,17 @@
     }
     img { max-width: 600px; min-width: 400px; margin-bottom: 0.5rem; }
     a { color: #58a6ff; }
+
+    @media (max-width: 768px) {
+      .container { padding: 10px 1rem 2rem 1rem; }
+      h1 { font-size: 2.5rem; }
+      p {
+        font-size: 1.1rem;
+        max-width: 100%;
+        padding: 0 0.5rem;
+      }
+      img { min-width: 100%; max-width: 100%; }
+    }
   </style>
 </head>
 <body>
