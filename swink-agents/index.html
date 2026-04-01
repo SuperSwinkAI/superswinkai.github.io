@@ -88,6 +88,13 @@
       color: #666;
       line-height: 1.4;
     }
+    .feature .learn-more {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #d4880f;
+    }
+    .feature .learn-more:hover { text-decoration: underline; }
     .crates {
       margin-top: 2rem;
       display: flex;
@@ -134,22 +141,27 @@
       <div class="feature">
         <strong>Any LLM, one trait</strong>
         <span>Implement StreamFn to plug in Anthropic, OpenAI, Gemini, Ollama, or your own.</span>
+        <a href="/swink-agents/any-llm" class="learn-more">Learn more &rarr;</a>
       </div>
       <div class="feature">
         <strong>Tools run concurrently</strong>
         <span>Batch tool calls execute in parallel. Steering callbacks can interrupt mid-batch.</span>
+        <a href="/swink-agents/concurrent-tools" class="learn-more">Learn more &rarr;</a>
       </div>
       <div class="feature">
         <strong>No unsafe. No globals.</strong>
         <span>#[forbid(unsafe_code)] at every crate root. Pure, predictable state.</span>
+        <a href="/swink-agents/safety" class="learn-more">Learn more &rarr;</a>
       </div>
       <div class="feature">
         <strong>Policy guardrails, not afterthoughts</strong>
         <span>Budget caps, sandboxing, PII redaction, prompt injection detection &mdash; compiled into the loop, not bolted on. Zero latency. No extra LLM calls.</span>
+        <a href="/swink-agents/policies" class="learn-more">Learn more &rarr;</a>
       </div>
       <div class="feature">
         <strong>Batteries included</strong>
         <span>9 LLM adapters, session memory, eval harness, on-device inference, and a full TUI &mdash; all in the workspace.</span>
+        <a href="/swink-agents/batteries-included" class="learn-more">Learn more &rarr;</a>
       </div>
     </div>
 

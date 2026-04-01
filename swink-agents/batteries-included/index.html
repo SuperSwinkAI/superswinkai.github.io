@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batteries Included - Swink Agent</title>
+  <meta name="description" content="9 LLM adapters, session memory, eval harness, on-device inference, and a full TUI — all in the workspace.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      background: #ffffff;
+      color: #1a1a2e;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #d4880f; }
+    a { color: #d4880f; text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 560px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .aside {
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    .crate-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .crate-card:hover { border-color: #d4880f; }
+    .crate-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .crate-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+    .crate-header strong {
+      font-size: 1.05rem;
+      font-family: ui-monospace, monospace;
+    }
+    .crate-desc {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .crate-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .crate-tag {
+      display: inline-block;
+      background: #f3f4f6;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.75rem;
+      color: #555;
+      font-family: ui-monospace, monospace;
+    }
+
+    .icon-core { background: #dbeafe; }
+    .icon-adapters { background: #dcfce7; }
+    .icon-policies { background: #fef3c7; }
+    .icon-memory { background: #f3e8ff; }
+    .icon-local { background: #ffe4e6; }
+    .icon-eval { background: #e0f2fe; }
+    .icon-tui { background: #f0fdf4; }
+
+    .cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #f3f4f6;
+    }
+    .cta p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem 1rem 3rem 1rem; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agents" class="back-link">&larr; Swink Agent</a>
+
+    <div class="hero">
+      <h1>Batteries Included</h1>
+      <p class="subtitle">Seven crates. One workspace. Everything you need to go from "I should build an agent" to actually having one.</p>
+    </div>
+
+    <h2>No, seriously, what's in here?</h2>
+    <p class="section-lead">
+      Most agent frameworks give you the loop and wish you luck. We shipped the loop, the adapters, the memory, the eval harness, the policy engine, on-device inference, and a terminal UI. All in one Cargo workspace. All <code>#![forbid(unsafe_code)]</code>.
+    </p>
+    <p class="aside">We may have gotten carried away. We're not sorry.</p>
+
+    <h2>The crates</h2>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-core">&#9881;</div>
+        <strong>swink-agent</strong>
+      </div>
+      <p class="crate-desc">
+        The core. Agent loop, tool dispatch, streaming interface, lifecycle events, retry strategies, model catalog, agent registry, inter-agent messaging, and the policy slot system. This is the engine room.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">agent loop</span>
+        <span class="crate-tag">tool dispatch</span>
+        <span class="crate-tag">streaming</span>
+        <span class="crate-tag">events</span>
+        <span class="crate-tag">retry</span>
+        <span class="crate-tag">policies</span>
+        <span class="crate-tag">multi-agent</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-adapters">&#9889;</div>
+        <strong>swink-agent-adapters</strong>
+      </div>
+      <p class="crate-desc">
+        Nine ready-made <code>StreamFn</code> implementations. Anthropic, OpenAI, Gemini, Ollama, AWS Bedrock, Azure, Mistral, xAI, and a generic proxy adapter. Each one feature-gated &mdash; only compile what you use.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">anthropic</span>
+        <span class="crate-tag">openai</span>
+        <span class="crate-tag">gemini</span>
+        <span class="crate-tag">ollama</span>
+        <span class="crate-tag">bedrock</span>
+        <span class="crate-tag">azure</span>
+        <span class="crate-tag">mistral</span>
+        <span class="crate-tag">xai</span>
+        <span class="crate-tag">proxy</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-policies">&#9888;</div>
+        <strong>swink-agent-policies</strong>
+      </div>
+      <p class="crate-desc">
+        Ten policy implementations built against the core trait API. Budget caps, sandboxing, deny lists, loop detection, prompt injection guards, PII redaction, content filtering, audit logging, and more. Each feature-gated independently.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">budget</span>
+        <span class="crate-tag">sandbox</span>
+        <span class="crate-tag">deny-list</span>
+        <span class="crate-tag">loop-detection</span>
+        <span class="crate-tag">injection-guard</span>
+        <span class="crate-tag">pii-redactor</span>
+        <span class="crate-tag">content-filter</span>
+        <span class="crate-tag">audit-logger</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-memory">&#128024;</div>
+        <strong>swink-agent-memory</strong>
+      </div>
+      <p class="crate-desc">
+        Session persistence in JSONL format. Summarization-aware context compaction so your agent doesn't blow through context windows on long conversations. Pluggable storage via the <code>SessionStore</code> trait. Async and blocking APIs.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">JSONL persistence</span>
+        <span class="crate-tag">summarization</span>
+        <span class="crate-tag">context compaction</span>
+        <span class="crate-tag">pluggable storage</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-local">&#129504;</div>
+        <strong>swink-agent-local-llm</strong>
+      </div>
+      <p class="crate-desc">
+        On-device inference. SmolLM3-3B (GGUF Q4_K_M, ~1.92 GB) for text and tool generation. EmbeddingGemma-300M (~200 MB) for embeddings. Models download lazily from HuggingFace on first use. No API key. No internet after first run.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">SmolLM3-3B</span>
+        <span class="crate-tag">EmbeddingGemma-300M</span>
+        <span class="crate-tag">GGUF</span>
+        <span class="crate-tag">lazy download</span>
+        <span class="crate-tag">offline-capable</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-eval">&#128202;</div>
+        <strong>swink-agent-eval</strong>
+      </div>
+      <p class="crate-desc">
+        Trajectory tracing and golden path verification. Built-in evaluators for trajectory matching, budget compliance, response quality, and efficiency scoring. SHA-256 hash chain for audit trails. YAML eval specs. CI/CD gating ready.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">trajectory tracing</span>
+        <span class="crate-tag">golden paths</span>
+        <span class="crate-tag">cost governance</span>
+        <span class="crate-tag">audit trails</span>
+        <span class="crate-tag">CI/CD</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-tui">&#9000;</div>
+        <strong>swink-agent-tui</strong>
+      </div>
+      <p class="crate-desc">
+        A full interactive terminal interface built with ratatui and crossterm. Streaming conversation rendering, session persistence, cross-platform keychain credential storage, and a first-run setup wizard. It's an agent you can talk to in your terminal. Right now.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">ratatui</span>
+        <span class="crate-tag">crossterm</span>
+        <span class="crate-tag">streaming</span>
+        <span class="crate-tag">keychain</span>
+        <span class="crate-tag">setup wizard</span>
+      </div>
+    </div>
+
+    <h2>The philosophy</h2>
+    <p class="section-lead">
+      Feature gates everywhere. Each adapter, each policy, each optional subsystem is behind a Cargo feature flag. Your binary only includes what you actually use. Need just Anthropic and the budget policy? That's ~4 crates compiled. Need everything? Also fine. We don't judge your dependency graph.
+    </p>
+    <p class="aside">Okay, we judge a little. But lovingly.</p>
+
+    <div class="cta">
+      <p>One <code>cargo add</code> away from having opinions about agent architecture.</p>
+    </div>
+  </div>
+</body>
+</html>

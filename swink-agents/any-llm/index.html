@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Any LLM, One Trait - Swink Agent</title>
+  <meta name="description" content="Implement StreamFn to plug in Anthropic, OpenAI, Gemini, Ollama, or your own LLM provider. One trait to rule them all.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      background: #ffffff;
+      color: #1a1a2e;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #d4880f; }
+    a { color: #d4880f; text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 540px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .aside {
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .provider {
+      padding: 0.75rem 1rem;
+      background: #fafafa;
+      border-radius: 8px;
+      border-left: 3px solid #d4880f;
+    }
+    .provider strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.1rem;
+    }
+    .provider span {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .code-block {
+      background: #1a1a2e;
+      color: #e6edf3;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+    .code-block .kw { color: #ff7b72; }
+    .code-block .str { color: #a5d6ff; }
+    .code-block .comment { color: #6e7681; }
+    .code-block .type { color: #d2a8ff; }
+    .code-block .fn { color: #d4880f; }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .how-card {
+      padding: 1rem 1.25rem;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .how-card strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+    .how-card span {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #f3f4f6;
+    }
+    .cta p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem 1rem 3rem 1rem; }
+      h1 { font-size: 2rem; }
+      .provider-grid { grid-template-columns: 1fr 1fr; }
+      .how-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agents" class="back-link">&larr; Swink Agent</a>
+
+    <div class="hero">
+      <h1>Any LLM, One Trait</h1>
+      <p class="subtitle">You have opinions about which LLM to use. We have opinions about not caring which one you pick.</p>
+    </div>
+
+    <h2>The trait</h2>
+    <p class="section-lead">
+      Everything flows through <code>StreamFn</code>. It takes a model name, a conversation context, and some options. It returns a stream of events. That's it. That's the whole interface between your agent and whatever LLM is on the other end.
+    </p>
+    <p class="section-lead">
+      The harness never touches provider credentials. It never imports a provider SDK. It doesn't know if you're talking to Claude, GPT, Gemini, or a model running on your laptop. It just consumes the stream.
+    </p>
+    <p class="aside">Blissful ignorance, but make it architecture.</p>
+
+    <h2>Nine adapters ship in the box</h2>
+    <p class="section-lead">
+      Each one normalizes a different provider's wire format into the same <code>Stream&lt;AssistantMessageEvent&gt;</code> protocol. SSE, NDJSON, AWS SigV4 &mdash; we handled the paperwork so you don't have to.
+    </p>
+
+    <div class="provider-grid">
+      <div class="provider">
+        <strong>Anthropic</strong>
+        <span>SSE + thinking blocks</span>
+      </div>
+      <div class="provider">
+        <strong>OpenAI</strong>
+        <span>SSE, multi-provider</span>
+      </div>
+      <div class="provider">
+        <strong>Google Gemini</strong>
+        <span>SSE</span>
+      </div>
+      <div class="provider">
+        <strong>Ollama</strong>
+        <span>NDJSON (local)</span>
+      </div>
+      <div class="provider">
+        <strong>AWS Bedrock</strong>
+        <span>SSE + SigV4 auth</span>
+      </div>
+      <div class="provider">
+        <strong>Azure OpenAI</strong>
+        <span>SSE</span>
+      </div>
+      <div class="provider">
+        <strong>Mistral</strong>
+        <span>SSE</span>
+      </div>
+      <div class="provider">
+        <strong>xAI</strong>
+        <span>SSE</span>
+      </div>
+      <div class="provider">
+        <strong>Proxy</strong>
+        <span>SSE + delta reconstruction</span>
+      </div>
+    </div>
+
+    <p class="section-lead">
+      Plus <code>LocalStreamFn</code> in the local-llm crate for fully on-device inference. No API key required. No internet required. Just vibes and a GPU.
+    </p>
+
+    <h2>Or bring your own</h2>
+    <p class="section-lead">
+      If your provider isn't on the list, implement <code>StreamFn</code> yourself. It's one async method. You get full control over auth, transport, and error handling.
+    </p>
+    <p class="section-lead">
+      The <code>MessageConverter</code> trait handles serializing harness messages into your provider's expected format, so adding a new provider is just two traits and zero forking.
+    </p>
+
+    <div class="code-block">
+      <span class="comment">// The whole contract:</span><br>
+      <span class="kw">async fn</span> <span class="fn">stream</span>(<br>
+      &nbsp;&nbsp;&amp;<span class="kw">self</span>,<br>
+      &nbsp;&nbsp;model: &amp;<span class="type">str</span>,<br>
+      &nbsp;&nbsp;context: &amp;<span class="type">AgentContext</span>,<br>
+      &nbsp;&nbsp;options: <span class="type">StreamOptions</span>,<br>
+      ) -&gt; <span class="type">Stream</span>&lt;<span class="type">AssistantMessageEvent</span>&gt;;<br>
+      <br>
+      <span class="comment">// That's it. Go home.</span>
+    </div>
+
+    <h2>What you get for free</h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <strong>Unified event protocol</strong>
+        <span>Every adapter emits the same start/delta/end events. Your agent code works identically regardless of provider.</span>
+      </div>
+      <div class="how-card">
+        <strong>Error classification</strong>
+        <span>Throttled, auth failure, context overflow, network error &mdash; adapters tag errors structurally so the retry strategy knows what to do.</span>
+      </div>
+      <div class="how-card">
+        <strong>Structured logging</strong>
+        <span>All adapters use the <code>tracing</code> crate. Debug, warn, error &mdash; consistent observability across providers.</span>
+      </div>
+      <div class="how-card">
+        <strong>Swap at runtime</strong>
+        <span>StreamFn is a trait object. Switch providers between turns, A/B test models, fall back to local &mdash; no recompilation needed.</span>
+      </div>
+    </div>
+
+    <div class="cta">
+      <p>Pick your model. We'll handle the plumbing.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policy Guardrails, Not Afterthoughts - Swink Agent</title>
+  <meta name="description" content="Budget caps, sandboxing, PII redaction, prompt injection detection — compiled into the loop, not bolted on.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      background: #ffffff;
+      color: #1a1a2e;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #d4880f; }
+    a { color: #d4880f; text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 540px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .aside {
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    .diagram {
+      margin: 2rem auto;
+      max-width: 100%;
+    }
+    .diagram img {
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .checkpoint-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .checkpoint {
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+    .checkpoint strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+    .checkpoint span {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+    .cp-blue { border-color: #2563eb; background: #eff6ff; }
+    .cp-amber { border-color: #d97706; background: #fffbeb; }
+    .cp-green { border-color: #16a34a; background: #f0fdf4; }
+    .cp-grey { border-color: #94a3b8; background: #f8fafc; }
+
+    .policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    .policy-table th {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 2px solid #e5e7eb;
+      color: #888;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .policy-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #f3f4f6;
+      color: #555;
+    }
+    .policy-table td:first-child {
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .properties {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .prop {
+      padding: 0.75rem 1rem;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .prop strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.15rem;
+    }
+    .prop span {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #f3f4f6;
+    }
+    .cta p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem 1rem 3rem 1rem; }
+      h1 { font-size: 2rem; }
+      .checkpoint-grid, .properties { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agents" class="back-link">&larr; Swink Agent</a>
+
+    <div class="hero">
+      <h1>Policy Guardrails</h1>
+      <p class="subtitle">Your agent is fast. It reasons, calls tools, and responds without asking permission. That's the whole point.</p>
+      <p class="subtitle">But maybe it <em>shouldn't</em> have permission to do everything.</p>
+    </div>
+
+    <h2>The problem with "we'll add safety later"</h2>
+    <p class="section-lead">
+      You won't. Nobody does. And when someone finally bolts on a content filter three sprints before launch, it runs as a second LLM call that doubles your latency and sometimes hallucinates its own violations. We've all seen it.
+    </p>
+    <p class="aside">No shade. Okay, a little shade.</p>
+
+    <p class="section-lead">
+      Swink Agent handles this differently. Policy guardrails are <strong>compiled into the agent loop itself</strong>. They run as native Rust code &mdash; not extra LLM calls, not a sidecar service, not a YAML file you'll forget to update. Every LLM call, every tool execution, every response passes through these gates before anything reaches the outside world.
+    </p>
+
+    <h2>How it actually works</h2>
+    <p class="section-lead">
+      The agent loop has four policy checkpoints. Each one can <strong>approve</strong>, <strong>modify</strong>, or <strong>halt</strong> the agent before the next stage runs. Think of them as bouncers at a very exclusive nightclub, except the nightclub is your production system.
+    </p>
+
+    <div class="diagram">
+      <img src="policy-guardrails.svg" alt="Policy guardrails diagram showing four checkpoints wrapping the agent loop">
+    </div>
+
+    <div class="checkpoint-grid">
+      <div class="checkpoint cp-blue">
+        <strong>Pre-Turn Guard</strong>
+        <span>Before the AI starts thinking. Budget checks, turn limits, injection detection. The "should we even let this happen?" gate.</span>
+      </div>
+      <div class="checkpoint cp-amber">
+        <strong>Pre-Dispatch Guard</strong>
+        <span>Before a tool runs. Deny lists, sandboxing, path traversal checks. The "nice try" gate.</span>
+      </div>
+      <div class="checkpoint cp-green">
+        <strong>Post-Turn Guard</strong>
+        <span>After the AI responds, before delivery. PII redaction, content filtering, loop detection. The "let me fix that for you" gate.</span>
+      </div>
+      <div class="checkpoint cp-grey">
+        <strong>Post-Loop Guard</strong>
+        <span>After everything's done. Checkpointing, audit logging. The "receipts" gate.</span>
+      </div>
+    </div>
+
+    <h2>What's in the box</h2>
+    <p class="section-lead">
+      These ship with the framework. Enable what you need, ignore what you don't. Zero overhead when unused &mdash; we measured.
+    </p>
+
+    <table class="policy-table">
+      <thead>
+        <tr><th>Policy</th><th>Checkpoint</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Budget</td><td>Pre-Turn</td><td>Stops the agent when cost or tokens exceed your limit</td></tr>
+        <tr><td>Max Turns</td><td>Pre-Turn</td><td>Caps reasoning cycles so your agent doesn't monologue forever</td></tr>
+        <tr><td>Tool Deny List</td><td>Pre-Dispatch</td><td>Blocks specific tools. No, you may not call <code>rm -rf</code></td></tr>
+        <tr><td>Sandbox</td><td>Pre-Dispatch</td><td>Restricts file access to approved directories. Path traversal? Denied</td></tr>
+        <tr><td>Loop Detection</td><td>Post-Turn</td><td>Catches the agent repeating itself in an existential spiral</td></tr>
+        <tr><td>Prompt Injection</td><td>Pre + Post</td><td>Detects attempts to override instructions. Both directions</td></tr>
+        <tr><td>PII Redactor</td><td>Post-Turn</td><td>Strips personally identifiable information before delivery</td></tr>
+        <tr><td>Content Filter</td><td>Post-Turn</td><td>Blocks responses matching prohibited patterns</td></tr>
+        <tr><td>Checkpoint</td><td>Post-Turn</td><td>Saves agent state after each turn for recovery and audit</td></tr>
+        <tr><td>Audit Logger</td><td>Post-Turn</td><td>Records everything. For compliance, or for when things get weird</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The fine print (it's actually good)</h2>
+    <div class="properties">
+      <div class="prop">
+        <strong>Default-off</strong>
+        <span>No policies run unless you say so. Zero overhead when unused. We respect your CPU.</span>
+      </div>
+      <div class="prop">
+        <strong>Composable</strong>
+        <span>Stack as many policies as you want at any checkpoint. If any one says stop, the agent stops. Democracy.</span>
+      </div>
+      <div class="prop">
+        <strong>Isolated</strong>
+        <span>A buggy policy can't crash your agent. Panics are caught and the policy is auto-removed. It fires itself.</span>
+      </div>
+      <div class="prop">
+        <strong>Extensible</strong>
+        <span>Write your own against the public trait. No forking required. We're not gatekeeping the gates.</span>
+      </div>
+    </div>
+
+    <div class="cta">
+      <p>Swink Agent is coming soon. The guardrails are already built.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools Run Concurrently - Swink Agent</title>
+  <meta name="description" content="Batch tool calls execute in parallel. Steering callbacks can interrupt mid-batch. Built on tokio.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      background: #ffffff;
+      color: #1a1a2e;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #d4880f; }
+    a { color: #d4880f; text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 540px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .aside {
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    .pipeline-steps {
+      margin: 2rem 0;
+      position: relative;
+    }
+    .pipeline-step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: #d4880f;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-right: 1rem;
+      margin-top: 0.1rem;
+    }
+    .step-content strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.1rem;
+    }
+    .step-content span {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .feature-card {
+      padding: 1rem 1.25rem;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .feature-card strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+    .feature-card span {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    .policy-table th {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 2px solid #e5e7eb;
+      color: #888;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .policy-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #f3f4f6;
+      color: #555;
+    }
+    .policy-table td:first-child {
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .code-block {
+      background: #1a1a2e;
+      color: #e6edf3;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+    .code-block .kw { color: #ff7b72; }
+    .code-block .comment { color: #6e7681; }
+    .code-block .type { color: #d2a8ff; }
+    .code-block .fn { color: #d4880f; }
+    .code-block .str { color: #a5d6ff; }
+
+    .cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #f3f4f6;
+    }
+    .cta p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem 1rem 3rem 1rem; }
+      h1 { font-size: 2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agents" class="back-link">&larr; Swink Agent</a>
+
+    <div class="hero">
+      <h1>Tools Run Concurrently</h1>
+      <p class="subtitle">Your LLM asked for three things at once. Why would you do them one at a time?</p>
+    </div>
+
+    <h2>The default is fast</h2>
+    <p class="section-lead">
+      When the model returns multiple tool calls in a single turn, Swink Agent spawns them all concurrently via <code>tokio::spawn</code>. Each tool gets its own cancellation token. Results come back as they finish.
+    </p>
+    <p class="section-lead">
+      No configuration needed. No "enable parallel mode" flag. Concurrency is the default because waiting is not a feature.
+    </p>
+    <p class="aside">Sequential execution is available if you really, truly want it. We won't judge. Much.</p>
+
+    <h2>But what if things change mid-flight?</h2>
+    <p class="section-lead">
+      Steering. After each tool completes, the harness polls for steering input. If a human (or another system) sends a redirect, every remaining in-flight tool gets cancelled via its <code>CancellationToken</code>. Cancelled tools get error results injected automatically so the context stays consistent.
+    </p>
+    <p class="section-lead">
+      Think of it as a pilot overriding autopilot. The plane doesn't crash &mdash; it just changes course.
+    </p>
+
+    <h2>The dispatch pipeline</h2>
+    <p class="section-lead">Every tool call passes through four stages before it actually runs. Any stage can say no.</p>
+
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>PreDispatch Policies</strong>
+          <span>Deny lists, sandboxing, argument rewriting. Policies can skip a single tool or abort the entire batch.</span>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Approval Gate</strong>
+          <span>Optional human-in-the-loop. The callback can approve, approve with modified arguments, or reject outright.</span>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Schema Validation</strong>
+          <span>Arguments are validated against the tool's JSON Schema. Bad input gets caught here, not inside your tool code.</span>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <strong>Execution</strong>
+          <span><code>tokio::spawn</code>. The tool runs. Results flow back. The world keeps spinning.</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>Execution policies</h2>
+    <p class="section-lead">Concurrent is the default, but you have options.</p>
+
+    <table class="policy-table">
+      <thead>
+        <tr><th>Policy</th><th>Behavior</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Concurrent</td><td>All tools spawn at once. The fast path. The default.</td></tr>
+        <tr><td>Sequential</td><td>One at a time, in model order. For when order matters.</td></tr>
+        <tr><td>Priority</td><td>Sort by priority, then concurrent within each group. The fancy path.</td></tr>
+        <tr><td>Custom</td><td>Implement <code>ToolExecutionStrategy</code>. You partition, we execute. Full control.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Building tools is embarrassingly easy</h2>
+    <p class="section-lead">
+      <code>FnTool</code> lets you build a tool from a closure in about five lines. Schema derived from a struct. No boilerplate. No ceremony.
+    </p>
+
+    <div class="code-block">
+      <span class="kw">let</span> tool = <span class="type">FnTool</span>::<span class="fn">new</span>(<span class="str">"weather"</span>, <span class="str">"Weather"</span>, <span class="str">"Get weather."</span>)<br>
+      &nbsp;&nbsp;.<span class="fn">with_schema_for</span>::&lt;<span class="type">Params</span>&gt;()<br>
+      &nbsp;&nbsp;.<span class="fn">with_execute_simple</span>(|params, _cancel| <span class="kw">async move</span> {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="type">AgentToolResult</span>::<span class="fn">text</span>(<span class="str">"72F and sunny"</span>)<br>
+      &nbsp;&nbsp;});<br>
+      <br>
+      <span class="comment">// That's a production-ready tool. Really.</span>
+    </div>
+
+    <p class="section-lead">
+      Need more control? Implement <code>AgentTool</code> on a struct. Connection pools, caches, setup/teardown &mdash; all yours. And <code>ToolMiddleware</code> lets you wrap any tool with timeouts, logging, or whatever else you dream up &mdash; without modifying the original.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <strong>Cancellation-aware</strong>
+        <span>Every tool receives a CancellationToken. Built-in tools check it before I/O and race against it during execution.</span>
+      </div>
+      <div class="feature-card">
+        <strong>Schema-validated</strong>
+        <span>Arguments are checked against JSON Schema before your code runs. LLM hallucinated a bad parameter? Caught.</span>
+      </div>
+      <div class="feature-card">
+        <strong>Middleware-ready</strong>
+        <span>Wrap any tool with timeouts, logging, or custom logic. Middleware stacks. It's decorators all the way down.</span>
+      </div>
+      <div class="feature-card">
+        <strong>Image-capable</strong>
+        <span>Tool results can include images, not just text. ContentBlock supports both. The LLM sees what it needs to see.</span>
+      </div>
+    </div>
+
+    <div class="cta">
+      <p>Fast by default. Interruptible when it matters.</p>
+    </div>
+  </div>
+</body>
+</html>

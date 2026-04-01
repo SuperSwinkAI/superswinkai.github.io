@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Unsafe. No Globals. - Swink Agent</title>
+  <meta name="description" content="#[forbid(unsafe_code)] at every crate root. Pure, predictable state. No shortcuts.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      background: #ffffff;
+      color: #1a1a2e;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #888;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #d4880f; }
+    a { color: #d4880f; text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
+    .subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 540px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .aside {
+      font-size: 0.9rem;
+      color: #888;
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    .big-code {
+      text-align: center;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #dc2626;
+      background: #fef2f2;
+      border: 2px solid #fecaca;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      letter-spacing: -0.5px;
+    }
+
+    .crate-list {
+      margin: 1.5rem 0;
+    }
+    .crate-item {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .crate-item:last-child { border-bottom: none; }
+    .crate-check {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: #dcfce7;
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 0.75rem;
+    }
+    .crate-name {
+      font-family: ui-monospace, monospace;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .principle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .principle {
+      padding: 1rem 1.25rem;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .principle strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+    .principle span {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #f3f4f6;
+    }
+    .cta p {
+      color: #888;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem 1rem 3rem 1rem; }
+      h1 { font-size: 2rem; }
+      .big-code { font-size: 1.2rem; padding: 1rem; }
+      .principle-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agents" class="back-link">&larr; Swink Agent</a>
+
+    <div class="hero">
+      <h1>No Unsafe. No Globals.</h1>
+      <p class="subtitle">We had a meeting about this. The vote was unanimous.</p>
+    </div>
+
+    <div class="big-code">#![forbid(unsafe_code)]</div>
+
+    <p class="section-lead">
+      That line sits at the top of every crate in the workspace. Not <code>warn</code>. Not <code>deny</code>. <strong>Forbid.</strong> As in: the compiler will refuse to build if anyone &mdash; including us &mdash; tries to sneak in an <code>unsafe</code> block. Even <code>#[allow(unsafe_code)]</code> can't override it.
+    </p>
+    <p class="aside">We trust ourselves. Just not that much.</p>
+
+    <h2>Every crate. No exceptions.</h2>
+
+    <div class="crate-list">
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent</span>
+      </div>
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent-adapters</span>
+      </div>
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent-memory</span>
+      </div>
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent-local-llm</span>
+      </div>
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent-eval</span>
+      </div>
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent-policies</span>
+      </div>
+      <div class="crate-item">
+        <div class="crate-check">&#10003;</div>
+        <span class="crate-name">swink-agent-tui</span>
+      </div>
+    </div>
+
+    <h2>No globals either</h2>
+    <p class="section-lead">
+      There are no <code>static mut</code> variables. No <code>lazy_static!</code> singletons holding mysterious state. No thread-local secrets. All state is passed through owned types and <code>Arc</code>-wrapped shared references with explicit lifetimes.
+    </p>
+    <p class="section-lead">
+      When you read Swink Agent code, you can trace where every piece of data comes from and where it goes. No spooky action at a distance.
+    </p>
+    <p class="aside">Determinism: the original feature.</p>
+
+    <h2>What this actually means for you</h2>
+    <div class="principle-grid">
+      <div class="principle">
+        <strong>Memory safety is guaranteed</strong>
+        <span>No use-after-free. No data races. No buffer overflows. The compiler proves it, not your test suite.</span>
+      </div>
+      <div class="principle">
+        <strong>State is predictable</strong>
+        <span>No hidden singletons mutating behind your back. Every function's inputs and outputs tell the full story.</span>
+      </div>
+      <div class="principle">
+        <strong>Concurrency is fearless</strong>
+        <span>Tokio tasks, parallel tool execution, streaming &mdash; all safe by construction. Not by hoping really hard.</span>
+      </div>
+      <div class="principle">
+        <strong>Auditing is possible</strong>
+        <span>When every crate forbids unsafe, you only need to audit dependencies. The surface area of "things that could go wrong" shrinks dramatically.</span>
+      </div>
+    </div>
+
+    <h2>Dependencies are audited too</h2>
+    <p class="section-lead">
+      We use <code>cargo-deny</code> with a strict advisory policy. Every known vulnerability in the dependency tree is blocked in CI. API keys are read from environment variables and never logged or serialized.
+    </p>
+    <p class="section-lead">
+      Security isn't a section of the docs. It's a property of the build.
+    </p>
+
+    <div class="cta">
+      <p>Safe code. Boring code. The best kind of code.</p>
+    </div>
+  </div>
+</body>
+</html>
