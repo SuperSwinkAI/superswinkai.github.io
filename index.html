@@ -39,7 +39,50 @@
       margin-bottom: 0.5rem;
     }
     img { max-width: 600px; min-width: 400px; margin-bottom: 0.5rem; }
-    a { color: #58a6ff; }
+    a { color: #58a6ff; text-decoration: none; }
+    .projects {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .projects h2 {
+      width: 100%;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #6e7681;
+      margin-bottom: 0;
+    }
+    .project-card {
+      display: block;
+      flex: 1 1 250px;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: #161b22;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .project-card:hover {
+      border-color: #58a6ff;
+      background: #1c2333;
+    }
+    .project-card strong {
+      display: block;
+      font-size: 1rem;
+      color: #e6edf3;
+      margin-bottom: 0.25rem;
+    }
+    .project-card span {
+      font-size: 0.85rem;
+      color: #8b949e;
+      line-height: 1.4;
+    }
 
     @media (max-width: 768px) {
       .container { padding: 10px 1rem 2rem 1rem; }
@@ -62,6 +105,13 @@
     <p>A modern hybrid framework for managing useful agents.</p>
     <br>
     <div class="definition">Swank: a collection of swinks; a style that is dashingly smart</div>
+    <div class="projects">
+      <h2>Current Projects</h2>
+      <a href="/swink-agents" class="project-card">
+        <strong>Swink Agent</strong>
+        <span>Pure-Rust agentic loop. Provider-agnostic streaming, concurrent tools, policy guardrails.</span>
+      </a>
+    </div>
   </div>
 </body>
 </html>
