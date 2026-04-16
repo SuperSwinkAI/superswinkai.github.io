@@ -46,14 +46,18 @@
       margin-bottom: 0.5rem;
     }
     img { max-width: 480px; min-width: 300px; margin-bottom: 0.5rem; }
-    .coming-soon {
-      font-size: 3.6rem;
-      color: #1a1a2e;
-      font-weight: 700;
-      letter-spacing: 2px;
-      margin-bottom: 0.5rem;
-    }
     a { color: #d4880f; text-decoration: none; }
+    .github-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.4rem 1.1rem;
+      background: #1a1a2e;
+      color: #fff !important;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .github-link:hover { background: #2d2d4e; }
     .back-link {
       display: inline-block;
       margin-bottom: 1rem;
@@ -131,7 +135,7 @@
 <body>
   <div class="container">
     <a href="/" class="back-link">&larr; SuperSwink</a>
-    <p class="coming-soon">Coming soon</p>
+    <a href="https://github.com/SuperSwinkAI/Swink-Agent" class="github-link">View on GitHub &rarr;</a>
     <img src="images/hero.jpeg" alt="Swink Agent">
     <div class="definition">swink: to toil, to labor, to work hard</div>
     <h1>Swink Agent</h1>
@@ -160,7 +164,7 @@
       </div>
       <div class="feature">
         <strong>Batteries included</strong>
-        <span>9 LLM adapters, session memory, eval harness, on-device inference, and a full TUI &mdash; all in the workspace.</span>
+        <span>13 crates in one workspace: 9 LLM adapters, MCP integration, session memory, eval harness, artifact storage, orchestration patterns, on-device inference, proc macros, and a full TUI.</span>
         <a href="/swink-agents/batteries-included" class="learn-more">Learn more &rarr;</a>
       </div>
     </div>
@@ -168,10 +172,16 @@
     <div class="crates">
       <span class="crate-badge">swink-agent</span>
       <span class="crate-badge">swink-agent-adapters</span>
+      <span class="crate-badge">swink-agent-policies</span>
       <span class="crate-badge">swink-agent-memory</span>
       <span class="crate-badge">swink-agent-local-llm</span>
       <span class="crate-badge">swink-agent-eval</span>
-      <span class="crate-badge">swink-agent-policies</span>
+      <span class="crate-badge">swink-agent-artifacts</span>
+      <span class="crate-badge">swink-agent-auth</span>
+      <span class="crate-badge">swink-agent-mcp</span>
+      <span class="crate-badge">swink-agent-patterns</span>
+      <span class="crate-badge">swink-agent-plugin-web</span>
+      <span class="crate-badge">swink-agent-macros</span>
       <span class="crate-badge">swink-agent-tui</span>
     </div>
   </div>

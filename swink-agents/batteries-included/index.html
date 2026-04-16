@@ -115,6 +115,12 @@
     .icon-local { background: #ffe4e6; }
     .icon-eval { background: #e0f2fe; }
     .icon-tui { background: #f0fdf4; }
+    .icon-artifacts { background: #fdf4ff; }
+    .icon-auth { background: #fff7ed; }
+    .icon-mcp { background: #f0f9ff; }
+    .icon-patterns { background: #fef9c3; }
+    .icon-web { background: #ecfdf5; }
+    .icon-macros { background: #fdf2f8; }
 
     .cta {
       text-align: center;
@@ -139,12 +145,12 @@
 
     <div class="hero">
       <h1>Batteries Included</h1>
-      <p class="subtitle">Seven crates. One workspace. Everything you need to go from "I should build an agent" to actually having one.</p>
+      <p class="subtitle">Thirteen crates. One workspace. Everything you need to go from "I should build an agent" to actually having one.</p>
     </div>
 
     <h2>No, seriously, what's in here?</h2>
     <p class="section-lead">
-      Most agent frameworks give you the loop and wish you luck. We shipped the loop, the adapters, the memory, the eval harness, the policy engine, on-device inference, and a terminal UI. All in one Cargo workspace. All <code>#![forbid(unsafe_code)]</code>.
+      Most agent frameworks give you the loop and wish you luck. We shipped the loop, the adapters, the memory, the eval harness, the policy engine, MCP integration, artifact storage, OAuth2 auth, multi-agent orchestration patterns, a web plugin, proc macros, on-device inference, and a terminal UI. All in one Cargo workspace. All <code>#![forbid(unsafe_code)]</code>.
     </p>
     <p class="aside">We may have gotten carried away. We're not sorry.</p>
 
@@ -232,10 +238,11 @@
         <strong>swink-agent-local-llm</strong>
       </div>
       <p class="crate-desc">
-        On-device inference. SmolLM3-3B (GGUF Q4_K_M, ~1.92 GB) for text and tool generation. EmbeddingGemma-300M (~200 MB) for embeddings. Models download lazily from HuggingFace on first use. No API key. No internet after first run.
+        On-device inference. SmolLM3-3B (GGUF Q4_K_M, ~1.92 GB) for text and tool generation &mdash; Gemma 4 available as an opt-in <code>gemma4</code> feature. EmbeddingGemma-300M (~200 MB) for embeddings. Models download lazily from HuggingFace on first use. No API key. No internet after first run.
       </p>
       <div class="crate-details">
         <span class="crate-tag">SmolLM3-3B</span>
+        <span class="crate-tag">Gemma 4 (opt-in)</span>
         <span class="crate-tag">EmbeddingGemma-300M</span>
         <span class="crate-tag">GGUF</span>
         <span class="crate-tag">lazy download</span>
@@ -266,14 +273,114 @@
         <strong>swink-agent-tui</strong>
       </div>
       <p class="crate-desc">
-        A full interactive terminal interface built with ratatui and crossterm. Streaming conversation rendering, session persistence, cross-platform keychain credential storage, and a first-run setup wizard. It's an agent you can talk to in your terminal. Right now.
+        A full interactive terminal interface built with ratatui and crossterm. Streaming conversation rendering with markdown and syntax highlighting, a live tool panel, session persistence, cross-platform keychain credential storage, and a first-run setup wizard. It's an agent you can talk to in your terminal. Right now.
       </p>
       <div class="crate-details">
         <span class="crate-tag">ratatui</span>
         <span class="crate-tag">crossterm</span>
         <span class="crate-tag">streaming</span>
+        <span class="crate-tag">markdown</span>
+        <span class="crate-tag">syntax highlighting</span>
+        <span class="crate-tag">tool panel</span>
         <span class="crate-tag">keychain</span>
         <span class="crate-tag">setup wizard</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-artifacts">&#128230;</div>
+        <strong>swink-agent-artifacts</strong>
+      </div>
+      <p class="crate-desc">
+        Versioned artifact storage. Filesystem and in-memory backends ship out of the box &mdash; pluggable via trait for anything else. Store, retrieve, and version the outputs your agents produce.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">versioned storage</span>
+        <span class="crate-tag">filesystem backend</span>
+        <span class="crate-tag">in-memory backend</span>
+        <span class="crate-tag">pluggable</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-auth">&#128273;</div>
+        <strong>swink-agent-auth</strong>
+      </div>
+      <p class="crate-desc">
+        OAuth2 credential management and token refresh. Pluggable provider support so your agents can authenticate against external services without rolling your own token lifecycle.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">OAuth2</span>
+        <span class="crate-tag">token refresh</span>
+        <span class="crate-tag">credentials</span>
+        <span class="crate-tag">pluggable providers</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-mcp">&#128257;</div>
+        <strong>swink-agent-mcp</strong>
+      </div>
+      <p class="crate-desc">
+        Model Context Protocol integration over stdio and SSE transports. Connect any MCP server to any agent in the harness &mdash; tools, resources, and prompts all flow through the same event system.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">MCP</span>
+        <span class="crate-tag">stdio</span>
+        <span class="crate-tag">SSE</span>
+        <span class="crate-tag">tools</span>
+        <span class="crate-tag">resources</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-patterns">&#128301;</div>
+        <strong>swink-agent-patterns</strong>
+      </div>
+      <p class="crate-desc">
+        Pre-built multi-agent orchestration topologies. Pipeline (chain agents in sequence), parallel fan-out (run agents concurrently and merge results), and loop (iterate until a condition is met). Compose them freely.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">pipeline</span>
+        <span class="crate-tag">parallel fan-out</span>
+        <span class="crate-tag">loop</span>
+        <span class="crate-tag">multi-agent</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-web">&#127758;</div>
+        <strong>swink-agent-plugin-web</strong>
+      </div>
+      <p class="crate-desc">
+        Web browsing and search plugin. Give your agent eyes on the internet without writing a scraper yourself. HTTP fetching, search integration, and structured content extraction ready to wire up as tools.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">web browsing</span>
+        <span class="crate-tag">search</span>
+        <span class="crate-tag">HTTP</span>
+        <span class="crate-tag">content extraction</span>
+      </div>
+    </div>
+
+    <div class="crate-card">
+      <div class="crate-header">
+        <div class="crate-icon icon-macros">&#9997;</div>
+        <strong>swink-agent-macros</strong>
+      </div>
+      <p class="crate-desc">
+        Proc macros that eliminate tool boilerplate. <code>#[derive(ToolSchema)]</code> generates JSON Schema from your structs at compile time. <code>#[tool]</code> annotates handler functions. Zero runtime overhead. Zero handwritten schema.
+      </p>
+      <div class="crate-details">
+        <span class="crate-tag">#[derive(ToolSchema)]</span>
+        <span class="crate-tag">#[tool]</span>
+        <span class="crate-tag">proc-macro</span>
+        <span class="crate-tag">zero boilerplate</span>
       </div>
     </div>
 
@@ -285,6 +392,7 @@
 
     <div class="cta">
       <p>One <code>cargo add</code> away from having opinions about agent architecture.</p>
+      <p><a href="https://github.com/SuperSwinkAI/Swink-Agent">github.com/SuperSwinkAI/Swink-Agent</a></p>
       <a href="/swink-agents" class="back-link">&larr; Back to Swink Agent</a>
     </div>
   </div>
