@@ -116,6 +116,36 @@
       color: #555;
       font-family: ui-monospace, monospace;
     }
+    .examples-card {
+      margin-top: 2rem;
+      text-align: left;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: border-color 0.2s;
+    }
+    .examples-card:hover { border-color: #d4880f; }
+    .examples-card strong {
+      display: block;
+      font-size: 1rem;
+      color: #1a1a2e;
+      margin-bottom: 0.35rem;
+    }
+    .examples-card span {
+      font-size: 0.88rem;
+      color: #666;
+      line-height: 1.5;
+    }
+    .examples-card a.examples-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: #d4880f;
+    }
+    .examples-card a.examples-link:hover { text-decoration: underline; }
     @media (max-width: 480px) {
       .container { padding: 1.5rem 1rem 2rem 1rem; }
       h1 { font-size: 2.2rem; }
@@ -183,6 +213,12 @@
       <span class="crate-badge">swink-agent-plugin-web</span>
       <span class="crate-badge">swink-agent-macros</span>
       <span class="crate-badge">swink-agent-tui</span>
+    </div>
+
+    <div class="examples-card">
+      <strong>Swink Agent Examples</strong>
+      <span>Runnable examples covering common patterns: a simple prompt loop, tool registration with approval callbacks, implementing a custom <code>StreamFn</code> adapter, and a full agent wired to the TUI.</span>
+      <a href="https://github.com/SuperSwinkAI/Swink-Agent-Examples" class="examples-link">View examples on GitHub &rarr;</a>
     </div>
   </div>
 </body>
