@@ -225,63 +225,6 @@
       line-height: 1.55;
     }
 
-    .img-placeholder {
-      margin: 1.5rem auto;
-      padding: 2rem 1.5rem;
-      background: var(--panel-strong);
-      border: 2px dashed var(--line);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      align-items: center;
-      max-width: 720px;
-    }
-    .img-placeholder.wide { max-width: 100%; }
-    .img-placeholder .img-label {
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--grid);
-      font-weight: 600;
-    }
-    .img-placeholder .img-title {
-      font-size: 1rem;
-      color: var(--text);
-      font-weight: 600;
-    }
-    .img-placeholder .img-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      max-width: 520px;
-      line-height: 1.55;
-    }
-    .img-placeholder .img-spec {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 0.4rem;
-      letter-spacing: 0.5px;
-    }
-    .img-placeholder .img-aspect {
-      width: 100%;
-      max-width: 520px;
-      aspect-ratio: var(--aspect, 16 / 9);
-      border: 1px solid var(--line);
-      background:
-        repeating-linear-gradient(
-          45deg,
-          rgba(0, 156, 214, 0.04) 0 10px,
-          rgba(0, 156, 214, 0.08) 10px 20px
-        );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin: 0.5rem 0;
-    }
-
     .flow {
       display: grid;
       grid-template-columns: 1fr 2fr 1fr;
@@ -685,16 +628,6 @@
       <p class="pitch">
         Swink AgentShore is the <strong>management tier</strong>.  It watches the repo, the budget, and the open issues, then picks the next play and the LLM Agent that should run it. 
       </p>
-    </div>
-
-    <div class="section">
-      <div class="img-placeholder wide">
-        <div class="img-label">Dashboard / app screenshot</div>
-        <div class="img-aspect" style="--aspect: 16 / 10;">aspect 16:10</div>
-        <div class="img-title">The desktop app, in flight</div>
-        <div class="img-desc">A real screenshot of the Tauri desktop app with the pixel-art dashboard showing the BEADS graph, the RL Agent's live decisions, and the budget meter. The "look how this actually works" moment for skeptics.</div>
-        <div class="img-spec">images/agentshore-dashboard.png &middot; ~1600&times;1000</div>
-      </div>
     </div>
 
     <div class="section">
