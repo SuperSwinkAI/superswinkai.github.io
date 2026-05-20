@@ -174,6 +174,34 @@
       max-width: 720px;
     }
 
+    .run-figure {
+      margin: 2rem 0 0 0;
+      padding: 0;
+    }
+    .run-figure .run-eyebrow {
+      display: block;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .run-figure video {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #0b1020;
+      border: 1px solid var(--line);
+    }
+    .run-figure figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 720px;
+    }
+
     .loop-figure {
       position: relative;
       left: 50%;
@@ -427,6 +455,21 @@
         </div>
       </div>
     </div>
+
+    <figure class="run-figure">
+      <span class="run-eyebrow">A real run &middot; sped up</span>
+      <video
+        src="/videos/agentshore-run.mp4"
+        poster="/videos/agentshore-run-poster.jpg"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Screen recording of Swink AgentShore working through a backlog of issues unattended."
+      ></video>
+      <figcaption>Swink AgentShore working a backlog on its own &mdash; the RL Agent picking the next play, LLM Agents doing the build.</figcaption>
+    </figure>
 
     <div class="section">
       <div class="eyebrow">The question behind the experiment</div>
