@@ -70,6 +70,32 @@
       flex: 1 1 320px;
       min-width: 280px;
     }
+    .download-soon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      padding: 0.65rem 0.95rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--accent);
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .download-soon .badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.15rem 0.45rem;
+      white-space: nowrap;
+    }
+    .download-soon strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
     .definition {
       font-size: 0.85rem;
       color: var(--muted);
@@ -395,6 +421,10 @@
         <div class="eyebrow">Ecosystem &middot; AgentShoring</div>
         <h1>Swink AgentShore</h1>
         <p class="tagline">An experiment in autopilot for a multi-agent workforce.</p>
+        <div class="download-soon">
+          <span class="badge">Soon</span>
+          <span>Download for Apple Silicon coming <strong>VERY</strong> soon</span>
+        </div>
       </div>
     </div>
 
