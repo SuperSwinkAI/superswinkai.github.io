@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Three-Layer Ledger &middot; Swink AgentShore</title>
+  <meta name="description" content="BEADS is the canonical project graph. GitHub is the human conversation surface. Swink AgentShore's SQLite holds the RL state.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f6ff;
+      --panel-strong: #ffffff;
+      --text: #1f2940;
+      --muted: #6d768b;
+      --line: #d6deec;
+      --accent: #0f8a6c;
+      --grid: #009cd6;
+      --grid-soft: rgba(0, 156, 214, 0.42);
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem 1.5rem; }
+    a { color: var(--grid); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+    .back-link:hover { color: var(--accent); }
+    .eyebrow { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grid); font-weight: 600; }
+    h1 { font-size: 2.5rem; margin: 0.5rem 0 0.5rem 0; letter-spacing: -0.02em; }
+    h2 { font-size: 1.4rem; margin: 2.5rem 0 0.5rem 0; }
+    h3 { font-size: 1.1rem; margin: 1.25rem 0 0.4rem 0; }
+    .subtitle { font-size: 1.2rem; margin: 0.5rem 0; max-width: 640px; }
+    p { color: var(--muted); margin: 0.75rem 0; }
+    p strong { color: var(--text); font-weight: 600; }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.88em; color: #244d69; background: var(--panel-strong); padding: 0.1em 0.35em; border: 1px solid var(--line); }
+
+    .layer-stack {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
+    .layer {
+      padding: 1.25rem 1.5rem;
+      background: var(--fill);
+      border: 1px solid var(--line);
+    }
+    .layer .layer-name { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: var(--grid); font-weight: 600; letter-spacing: 0.5px; }
+    .layer h3 { margin: 0.25rem 0 0.4rem 0; font-size: 1.2rem; color: var(--text); }
+    .layer p { color: var(--text); margin: 0.4rem 0; font-size: 0.95rem; }
+    .layer-beads { --fill: rgba(198, 220, 238, 0.55); }
+    .layer-gh { --fill: rgba(214, 244, 252, 0.55); }
+    .layer-sql { --fill: rgba(198, 232, 206, 0.55); border-color: var(--accent); }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      background: var(--panel-strong);
+    }
+    .table th, .table td { padding: 0.6rem 0.85rem; text-align: left; border-bottom: 1px solid var(--line); }
+    .table th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); background: var(--bg); }
+    .table td:first-child { font-family: "JetBrains Mono", monospace; font-size: 0.85rem; color: var(--text); }
+
+    .footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a>
+
+    <div class="eyebrow">The ledger</div>
+    <h1>Three layers, one truth</h1>
+    <p class="subtitle">Each layer owns one thing. The boundaries are deliberate. The alignment delta is what holds them honest.</p>
+
+    <p>Swink AgentShore reads project state from three sources. Mixing them together is what most multi-agent systems get wrong: state ends up duplicated, drifts apart, and the LLM Agents end up reasoning about a stale snapshot of reality.</p>
+
+    <h2>The three layers</h2>
+
+    <div class="layer-stack">
+      <div class="layer layer-beads">
+        <div class="layer-name">BEADS &middot; canonical project graph</div>
+        <h3>The work, structured</h3>
+        <p>Epics &rarr; stories &rarr; tasks. Dependencies between them. <code>bd ready</code> is what the policy asks when it needs to know what's actually doable right now. BEADS is owned by the <code>bd</code> tool; Swink AgentShore reads it through the standard interface.</p>
+      </div>
+      <div class="layer layer-gh">
+        <div class="layer-name">GitHub &middot; human conversation surface</div>
+        <h3>Where humans talk back</h3>
+        <p>Issues, PRs, comments, labels. Mirrored to and from BEADS via <code>external_ref="gh-N"</code>. This is the layer humans inspect, comment on, and steer. Swink AgentShore writes here freely (creating, editing, labeling, decomposing, closing), with every mutation receiving an idempotency key and audit record.</p>
+      </div>
+      <div class="layer layer-sql">
+        <div class="layer-name">Swink AgentShore SQLite &middot; RL state</div>
+        <h3>Session-scoped intelligence</h3>
+        <p>Plays, parameters, rewards, agent histories, PPO experience rows, policy checkpoints. Lives in <code>~/.config/swink/agentshore/</code>. Local, inspectable, versioned per release. This is what the RL Agent is: not in a model file, but in the trajectory of decisions it has already made.</p>
+      </div>
+    </div>
+
+    <h2>Why three layers, not one</h2>
+    <p>Could BEADS be a table inside Swink AgentShore's SQLite? Yes. Could GitHub be the project graph? In theory. The design pulls them apart on purpose:</p>
+    <ul>
+      <li><strong>BEADS is shape</strong>: optimized for dependency queries the RL loop hits every tick. It needs to be fast and structurally honest.</li>
+      <li><strong>GitHub is conversation</strong>: the place humans already work. Forcing humans into a new surface would lose the whole "engineering buyers want labor, not tools" thesis.</li>
+      <li><strong>SQLite is replay</strong>: every decision needs to be reconstructible. A policy you can't audit is a policy you can't trust with merge rights.</li>
+    </ul>
+
+    <h2>What each layer owns</h2>
+
+    <table class="table">
+      <thead>
+        <tr><th>Concern</th><th>Owner</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Epic/story/task graph</td><td>BEADS</td></tr>
+        <tr><td>Dependency edges</td><td>BEADS</td></tr>
+        <tr><td><code>bd ready</code> queue</td><td>BEADS</td></tr>
+        <tr><td>Issue text, labels, assignment</td><td>GitHub</td></tr>
+        <tr><td>PR state, review threads, merges</td><td>GitHub</td></tr>
+        <tr><td>Human comments and steering</td><td>GitHub</td></tr>
+        <tr><td>PPO experience rows</td><td>Swink AgentShore SQLite</td></tr>
+        <tr><td>Policy checkpoints</td><td>Swink AgentShore SQLite</td></tr>
+        <tr><td>Mutation audit, idempotency keys</td><td>Swink AgentShore SQLite</td></tr>
+        <tr><td>Per-tick alignment delta</td><td>Swink AgentShore SQLite (computed from BEADS)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The alignment delta</h2>
+    <p>The reward signal that ties the three layers together is the <code>alignment_delta</code>: the per-tick change in <code>state.graph.global_closure_ratio</code>. In plain language: <strong>is the work shaped like the goal, and getting closer to done?</strong></p>
+    <p>It's a <code>float | None</code>. <code>None</code> means the project graph hasn't been seeded yet. The first play of any session is <em>Seed Project</em>, which invokes <code>bd</code> to build the epic/story/task graph from open GitHub issues. Once seeded, alignment becomes a live signal the policy can optimize against.</p>
+
+    <h2>The seed play</h2>
+    <p>There's no <code>goals.yaml</code>. The goal is whatever the open issues say it is. The policy's first move on a fresh repo is to read GitHub, build BEADS, and let alignment start flowing. Everything downstream (play selection, agent routing, reward) is bootstrapped from that one read.</p>
+
+    <div class="footer">
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a>
+      <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
