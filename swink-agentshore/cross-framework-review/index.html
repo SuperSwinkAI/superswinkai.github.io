@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cross-Framework Review &middot; Swink AgentShore</title>
+  <meta name="description" content="Code review and QA run on a different framework than the author. Confirmation bias compounds when an agent reviews itself.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f6ff;
+      --panel-strong: #ffffff;
+      --text: #1f2940;
+      --muted: #6d768b;
+      --line: #d6deec;
+      --accent: #0f8a6c;
+      --grid: #009cd6;
+      --warn: #c2410c;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem 1.5rem; }
+    a { color: var(--grid); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+    .back-link:hover { color: var(--accent); }
+    .eyebrow { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grid); font-weight: 600; }
+    h1 { font-size: 2.5rem; margin: 0.5rem 0 0.5rem 0; letter-spacing: -0.02em; }
+    h2 { font-size: 1.4rem; margin: 2.5rem 0 0.5rem 0; }
+    .subtitle { font-size: 1.2rem; margin: 0.5rem 0; max-width: 640px; }
+    p { color: var(--muted); margin: 0.75rem 0; }
+    p strong { color: var(--text); font-weight: 600; }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.88em; color: #244d69; background: var(--panel-strong); padding: 0.1em 0.35em; border: 1px solid var(--line); }
+
+    .quote {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.5rem;
+      background: var(--panel-strong);
+      border-left: 4px solid var(--accent);
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .pair-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
+    .pair {
+      padding: 1rem 1.15rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+    .pair .role { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+    .pair .who { font-family: "JetBrains Mono", monospace; font-size: 0.95rem; color: var(--text); font-weight: 600; }
+    .pair .why { margin-top: 0.4rem; font-size: 0.85rem; color: var(--muted); }
+    .pair.author { border-left: 4px solid var(--grid); }
+    .pair.reviewer { border-left: 4px solid var(--accent); }
+
+    .gate-list {
+      margin: 1.25rem 0;
+      padding: 0;
+      list-style: none;
+    }
+    .gate-list li {
+      padding: 0.85rem 1rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+    }
+    .gate-list li strong { color: var(--text); }
+
+    .footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .pair-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a>
+
+    <div class="eyebrow">Anti-confirmation bias</div>
+    <h1>Claude doesn't grade Claude</h1>
+    <p class="subtitle">Code review and QA run on a different framework than the author. Not by convention. By architectural invariant.</p>
+
+    <h2>The failure mode</h2>
+    <p>When an LLM Agent reviews its own output, the failure looks <em>exactly</em> like success. The same model that produced the PR is asked whether the PR is good, and the same biases that shaped the code shape the review. There's no contradiction, no missed assumption, no second opinion. Just a confirmatory loop that gets faster the more it's run.</p>
+
+    <p>This compounds where it hurts most: at merge. The cost of a bad merge isn't bounded by the cost of a bad review. It's bounded by everything downstream that depends on the merged code being correct. By the time the bias shows up in production, the trail back to the review is cold.</p>
+
+    <div class="quote">
+      Plenty of anti-slop prompting in the play templates, too. But cross-framework review is what catches what the prompts miss.
+    </div>
+
+    <h2>The architectural rule</h2>
+    <p>Swink AgentShore enforces two layers of separation, in the executor and not the prompt:</p>
+
+    <ul>
+      <li><strong>Framework separation.</strong> If the author was a Claude-family LLM Agent, the reviewer must come from a different framework (Codex, an open-weight model, a separate vendor). The <a href="/swink-agentshore/hard-gates">hard-gate catalog</a> blocks same-framework review for the same PR.</li>
+      <li><strong>Identity isolation.</strong> Reviewer LLM Agents use independent GitHub SSH keys from authors. The git history shows two different signing identities. Automated rubber-stamping is structurally prevented. Not "discouraged."</li>
+    </ul>
+
+    <h2>What this looks like at runtime</h2>
+
+    <div class="pair-grid">
+      <div class="pair author">
+        <div class="role">Author</div>
+        <div class="who">claude-sonnet-4.6</div>
+        <div class="why">Picked up the issue, wrote the implementation, opened the PR. Signs commits with its own SSH key.</div>
+      </div>
+      <div class="pair reviewer">
+        <div class="role">Reviewer</div>
+        <div class="who">codex-medium</div>
+        <div class="why">Different framework, different identity, different prompt template. Reviews against an explicit checklist, not "does this look right".</div>
+      </div>
+    </div>
+
+    <p>The policy can't route around it. The <em>Code Review</em> play has a <a href="/swink-agentshore/ppo-policy">hard precondition</a>: <code>reviewer.framework != author.framework</code>. If no eligible reviewer is available right now, the play is masked. The policy picks something else, or instantiates the right LLM Agent first.</p>
+
+    <h2>Why this stays even on human override</h2>
+    <p>Most autonomy gates can be overridden by a human. The anti-confirmation rule cannot. The reasoning is unglamorous: humans are <em>worse</em> at catching confirmation bias under time pressure, and "just this once" is the most common shape of an incident postmortem.</p>
+
+    <ul class="gate-list">
+      <li><strong><a href="/swink-agentshore/hard-gates">Hard gate</a>:</strong> Code Review reviewer must not be the PR author.</li>
+      <li><strong><a href="/swink-agentshore/hard-gates">Hard gate</a>:</strong> Cross-framework requirement is not overridable from the CLI.</li>
+      <li><strong><a href="/swink-agentshore/hard-gates">Hard gate</a>:</strong> Merge requires an approved PR <em>and</em> passing CI before it can run.</li>
+    </ul>
+
+    <h2>What it doesn't claim to fix</h2>
+    <p>Cross-framework review catches confirmation bias. It does not catch:</p>
+    <ul>
+      <li><strong>Shared training-data blind spots.</strong> If every frontier model misses the same security pattern, swapping vendors won't help. This is why QA still runs on top, as a separate large-tier validation pass.</li>
+      <li><strong>Reward hacking.</strong> The policy can still find ways to optimize the reward without optimizing the underlying goal. That's the scope-validator's job, not the reviewer's.</li>
+      <li><strong>Bad goals.</strong> If the issue is wrong, the PR will be wrong, and the review will be a thoughtful endorsement of the wrong thing.</li>
+    </ul>
+
+    <p>The principle is narrower than "review fixes everything" and more useful than "reviewers are mostly redundant": it fixes the specific failure mode where the author and reviewer share priors.</p>
+
+    <div class="footer">
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a>
+      <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -163,18 +163,18 @@
     <h2>Ineligible plays are masked, not penalized</h2>
     <p>The policy can't pick them. No PR to review &rarr; <em>Code Review</em> is masked. Budget exhausted &rarr; only <em>End Session</em> remains.</p>
     <p>Every play has a precondition, and it's checked twice: once when building the action mask before the policy picks, and again at dispatch before the play actually runs. Belt and suspenders.</p>
-    <p>Irreversible mistakes (merging the wrong thing, letting an author review their own PR) cost too much to learn from negative reward. <strong>Safety lives in the mask catalog.</strong></p>
+    <p>Irreversible mistakes (merging the wrong thing, letting an author review their own PR) cost too much to learn from negative reward. <strong>Safety lives in the <a href="/swink-agentshore/hard-gates">hard-gate catalog</a>.</strong></p>
 
     <h2>The reward, in one paragraph</h2>
     <p>Reward is how the policy learns what's worth doing. It's a weighted sum, kept inside reasonable bounds so no single play swamps the rest.</p>
-    <p><strong>Pushing forward:</strong> shipping issues (issue throughput) and moving the project toward done (alignment delta).</p>
+    <p><strong>Pushing forward:</strong> shipping issues (issue throughput) and moving the project toward done (<a href="/swink-agentshore/beads-graph">alignment delta</a>).</p>
     <p><strong>Pulling back:</strong> spinning in circles (loop), inflating the backlog faster than work closes (inflation), and stretches with no measurable progress (stagnation).</p>
     <p>The bias is toward merging and project progress.</p>
 
     <figure class="reward-chart">
-      <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="reward-chart-title reward-chart-desc">
+      <svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="reward-chart-title reward-chart-desc">
         <title id="reward-chart-title">Rough reward magnitudes by play</title>
-        <desc id="reward-chart-desc">Horizontal divergent bar chart. Merge PR is the largest positive reward. Issue Pickup is a medium positive. Code Review and Run QA are small positives. Loop and Stagnation are negative, with Stagnation the larger penalty.</desc>
+        <desc id="reward-chart-desc">Horizontal divergent bar chart. Merge PR is the largest positive reward. Issue Pickup is a medium positive. Code Review and Run QA are small positives. Loop, Inflation, and Stagnation are negative, with Stagnation the largest penalty.</desc>
 
         <style>
           .rc-title { font: 700 14px Inter, sans-serif; fill: #1f2940; }
@@ -191,10 +191,10 @@
         <text x="14" y="40" class="rc-sub">Defaults are illustrative. Weights are configurable per project.</text>
 
         <!-- Axis line -->
-        <line class="rc-axis" x1="450" y1="60" x2="450" y2="270"/>
+        <line class="rc-axis" x1="450" y1="60" x2="450" y2="300"/>
         <!-- soft grid lines at left and right ends -->
-        <line class="rc-grid" x1="190" y1="60" x2="190" y2="270"/>
-        <line class="rc-grid" x1="710" y1="60" x2="710" y2="270"/>
+        <line class="rc-grid" x1="190" y1="60" x2="190" y2="300"/>
+        <line class="rc-grid" x1="710" y1="60" x2="710" y2="300"/>
 
         <!-- Row 1: Merge PR (+10, big positive) -->
         <text x="440" y="84" class="rc-label" text-anchor="end">Merge PR</text>
@@ -216,14 +216,18 @@
         <text x="460" y="204" class="rc-label" text-anchor="start">Loop</text>
         <rect class="rc-bar-neg" x="320" y="192" width="130" height="20" rx="2"/>
 
-        <!-- Row 6: Stagnation (-8) -->
-        <text x="460" y="234" class="rc-label" text-anchor="start">Stagnation</text>
-        <rect class="rc-bar-neg" x="242" y="222" width="208" height="20" rx="2"/>
+        <!-- Row 6: Inflation (-6) -->
+        <text x="460" y="234" class="rc-label" text-anchor="start">Inflation</text>
+        <rect class="rc-bar-neg" x="294" y="222" width="156" height="20" rx="2"/>
+
+        <!-- Row 7: Stagnation (-8) -->
+        <text x="460" y="264" class="rc-label" text-anchor="start">Stagnation</text>
+        <rect class="rc-bar-neg" x="242" y="252" width="208" height="20" rx="2"/>
 
         <!-- Scale labels -->
-        <text x="190" y="290" class="rc-scale" text-anchor="start">PENALTY</text>
-        <text x="450" y="290" class="rc-scale" text-anchor="middle">0</text>
-        <text x="710" y="290" class="rc-scale" text-anchor="end">REWARD</text>
+        <text x="190" y="320" class="rc-scale" text-anchor="start">PENALTY</text>
+        <text x="450" y="320" class="rc-scale" text-anchor="middle">0</text>
+        <text x="710" y="320" class="rc-scale" text-anchor="end">REWARD</text>
       </svg>
       <figcaption>Rough magnitudes only, to show the shape of the bias. Real values are clipped and adjusted per project.</figcaption>
     </figure>
@@ -256,11 +260,11 @@
       </div>
       <div class="checkpoint">
         <strong>Long-running, not chat-bound</strong>
-        <span>Sessions run for hours, not in conversational turns. No context window to overflow. State lives in BEADS, GitHub, and the policy's replay trail.</span>
+        <span>Sessions run for hours, not in conversational turns. No context window to overflow. State lives in <a href="/swink-agentshore/beads-graph">BEADS, GitHub, and the policy's replay trail</a>.</span>
       </div>
       <div class="checkpoint">
         <strong>Mutations are auditable</strong>
-        <span>Every external write goes through one adapter with idempotency keys and audit records. You can prove what the system did, and what it didn't.</span>
+        <span>Every external write goes through one adapter with idempotency keys and <a href="/swink-agentshore/hard-gates">audit records</a>. You can prove what the system did, and what it didn't.</span>
       </div>
       <div class="checkpoint">
         <strong>Updates are incremental</strong>

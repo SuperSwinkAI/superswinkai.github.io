@@ -91,12 +91,12 @@
       <div class="layer layer-gh">
         <div class="layer-name">GitHub &middot; human conversation surface</div>
         <h3>Where humans talk back</h3>
-        <p>Issues, PRs, comments, labels. Mirrored to and from BEADS via <code>external_ref="gh-N"</code>. This is the layer humans inspect, comment on, and steer. Swink AgentShore writes here freely (creating, editing, labeling, decomposing, closing), with every mutation receiving an idempotency key and audit record.</p>
+        <p>Issues, PRs, comments, labels. Mirrored to and from BEADS via <code>external_ref="gh-N"</code>. This is the layer humans inspect, comment on, and steer. Swink AgentShore writes here freely (creating, editing, labeling, decomposing, closing), with every mutation receiving an <a href="/swink-agentshore/hard-gates">idempotency key and audit record</a>.</p>
       </div>
       <div class="layer layer-sql">
         <div class="layer-name">Swink AgentShore SQLite &middot; RL state</div>
         <h3>Session-scoped intelligence</h3>
-        <p>Plays, parameters, rewards, agent histories, PPO experience rows, policy checkpoints. Lives in <code>~/.config/swink/agentshore/</code>. Local, inspectable, versioned per release. This is what the RL Agent is: not in a model file, but in the trajectory of decisions it has already made.</p>
+        <p>Plays, parameters, rewards, agent histories, PPO experience rows, policy checkpoints. Lives in <code>~/.config/swink/agentshore/</code>. Local, inspectable, versioned per release. This is what <a href="/swink-agentshore/ppo-policy">the RL Agent</a> is: not in a model file, but in the trajectory of decisions it has already made.</p>
       </div>
     </div>
 
@@ -121,9 +121,9 @@
         <tr><td>Issue text, labels, assignment</td><td>GitHub</td></tr>
         <tr><td>PR state, review threads, merges</td><td>GitHub</td></tr>
         <tr><td>Human comments and steering</td><td>GitHub</td></tr>
-        <tr><td>PPO experience rows</td><td>Swink AgentShore SQLite</td></tr>
-        <tr><td>Policy checkpoints</td><td>Swink AgentShore SQLite</td></tr>
-        <tr><td>Mutation audit, idempotency keys</td><td>Swink AgentShore SQLite</td></tr>
+        <tr><td><a href="/swink-agentshore/ppo-policy">PPO experience rows</a></td><td>Swink AgentShore SQLite</td></tr>
+        <tr><td><a href="/swink-agentshore/ppo-policy">Policy checkpoints</a></td><td>Swink AgentShore SQLite</td></tr>
+        <tr><td><a href="/swink-agentshore/hard-gates">Mutation audit, idempotency keys</a></td><td>Swink AgentShore SQLite</td></tr>
         <tr><td>Per-tick alignment delta</td><td>Swink AgentShore SQLite (computed from BEADS)</td></tr>
       </tbody>
     </table>

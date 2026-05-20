@@ -51,7 +51,25 @@
       font-weight: 600;
     }
 
-    .hero { margin-bottom: 2.5rem; }
+    .hero {
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero-photo {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .hero-text {
+      flex: 1 1 320px;
+      min-width: 280px;
+    }
     .definition {
       font-size: 0.85rem;
       color: var(--muted);
@@ -429,9 +447,12 @@
     <a href="/" class="back-link">&larr; SuperSwink</a>
 
     <div class="hero">
-      <div class="eyebrow">Ecosystem &middot; Agent Shoring</div>
-      <h1>Swink AgentShore</h1>
-      <p class="tagline">An experiment in autopilot for a multi-agent workforce.</p>
+      <img class="hero-photo" src="/images/robots-transparent-alpha.png" alt="A large humanoid cobot orchestrating smaller assembly robots on a conveyor.">
+      <div class="hero-text">
+        <div class="eyebrow">Ecosystem &middot; AgentShoring</div>
+        <h1>Swink AgentShore</h1>
+        <p class="tagline">An experiment in autopilot for a multi-agent workforce.</p>
+      </div>
     </div>
 
     <div class="section">
@@ -683,7 +704,7 @@
       <ul class="stays-human">
         <li><strong>The problem statement.</strong> Someone has to write the issue, the PRD, the goal. <span class="product-name">Swink AgentShore</span> reads them; it doesn't author them.</li>
         <li><strong>The reward function.</strong> What counts as "shipped" is a human decision. The RL Agent learns to maximize a signal someone designed.</li>
-        <li><strong>The override.</strong> Humans can pause, redirect, or kill a session. Hard gates exist for things that must never happen, even on human override.</li>
+        <li><strong>The override.</strong> Humans can pause, redirect, or kill a session. <a href="/swink-agentshore/hard-gates">Hard gates</a> exist for things that must never happen, even on human override.</li>
       </ul>
     </div>
 

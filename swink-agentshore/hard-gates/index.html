@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomy &amp; Hard Gates &middot; Swink AgentShore</title>
+  <meta name="description" content="The default control loop is autonomous. Hard gates are limited to correctness invariants and operations where proceeding would corrupt the session state.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f6ff;
+      --panel-strong: #ffffff;
+      --text: #1f2940;
+      --muted: #6d768b;
+      --line: #d6deec;
+      --accent: #0f8a6c;
+      --grid: #009cd6;
+      --warn: #c2410c;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem 1.5rem; }
+    a { color: var(--grid); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+    .back-link:hover { color: var(--accent); }
+    .eyebrow { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grid); font-weight: 600; }
+    h1 { font-size: 2.5rem; margin: 0.5rem 0 0.5rem 0; letter-spacing: -0.02em; }
+    h2 { font-size: 1.4rem; margin: 2.5rem 0 0.5rem 0; }
+    .subtitle { font-size: 1.2rem; margin: 0.5rem 0; max-width: 640px; }
+    p { color: var(--muted); margin: 0.75rem 0; }
+    p strong { color: var(--text); font-weight: 600; }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.88em; color: #244d69; background: var(--panel-strong); padding: 0.1em 0.35em; border: 1px solid var(--line); }
+
+    .yolo-callout {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.5rem;
+      background: var(--panel-strong);
+      border: 2px solid var(--accent);
+    }
+    .yolo-callout strong { display: block; font-size: 1.05rem; color: var(--accent); margin-bottom: 0.4rem; letter-spacing: 0.5px; text-transform: uppercase; font-size: 0.85rem; }
+    .yolo-callout p { color: var(--text); margin: 0; font-size: 1.05rem; }
+
+    .lists-side {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 1.5rem 0;
+    }
+    .list-card {
+      padding: 1.1rem 1.25rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+    .list-card.allowed { border-left: 4px solid var(--grid); }
+    .list-card.gated { border-left: 4px solid var(--warn); }
+    .list-card h3 { margin: 0 0 0.6rem 0; font-size: 0.95rem; }
+    .list-card ul { margin: 0; padding-left: 1.1rem; font-size: 0.88rem; color: var(--muted); }
+    .list-card li { margin-bottom: 0.35rem; }
+
+    .gate-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 1.25rem 0;
+    }
+    .gate {
+      padding: 0.85rem 1.1rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--warn);
+    }
+    .gate strong { display: block; font-size: 0.95rem; color: var(--text); margin-bottom: 0.2rem; }
+    .gate span { font-size: 0.88rem; color: var(--muted); }
+
+    .footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .lists-side { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a>
+
+    <div class="eyebrow">Autonomy posture</div>
+    <h1>YOLO by design</h1>
+    <p class="subtitle">The default control loop is not "ask the human." It's "make the move, log the mutation, keep going."</p>
+
+    <div class="yolo-callout">
+      <strong>The product posture</strong>
+      <p>Swink AgentShore is expected to create, edit, label, decompose, and close GitHub issues during normal operation. Human approval is <em>not</em> the default control loop.</p>
+    </div>
+
+    <h2>Why autonomy by default</h2>
+    <p>A learned manager that asks permission for every move can't learn. The reward signal becomes noisy, the trajectory becomes a series of human-in-the-loop interventions, and the policy ends up modeling the human's patience more than the project's state.</p>
+    <p>So Swink AgentShore intentionally has a riskier autonomous posture than a chat-style assistant. The implementation favors <strong>moving work forward and creating traceable GitHub artifacts</strong> over pausing for approval. The control surface is the audit log, not the confirmation dialog.</p>
+
+    <h2>What the agent does without asking</h2>
+
+    <div class="lists-side">
+      <div class="list-card allowed">
+        <h3>Allowed by default</h3>
+        <ul>
+          <li>Create issues</li>
+          <li>Edit issue body, title, labels</li>
+          <li>Decompose epics into stories and tasks</li>
+          <li>Close issues</li>
+          <li>Open PRs</li>
+          <li>Push branches</li>
+          <li>Merge approved PRs that pass CI</li>
+          <li>Spawn and end agents within budget</li>
+        </ul>
+      </div>
+      <div class="list-card gated">
+        <h3>Gated, never silent</h3>
+        <ul>
+          <li>Reviewing your own PR</li>
+          <li>Merging without an approval</li>
+          <li>Merging with failing CI</li>
+          <li>Spending past the budget cap</li>
+          <li>Running plays without replay metadata</li>
+          <li>Writing to GitHub without an audit record</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>The hard-gate catalog</h2>
+    <p>Hard gates are narrow on purpose. They cover correctness invariants and operations where proceeding would corrupt session state. Everything else is the policy's call.</p>
+
+    <div class="gate-row">
+      <div class="gate">
+        <strong>Anti-confirmation bias</strong>
+        <span>Code Review reviewer must not be the PR author. Cannot be overridden, even by a human.</span>
+      </div>
+      <div class="gate">
+        <strong>Merge readiness</strong>
+        <span>Merge PR requires an approved PR and passing CI before the play is dispatchable.</span>
+      </div>
+      <div class="gate">
+        <strong>Budget exhaustion</strong>
+        <span>Once the configured budget cap is hit, every play except End Session and approved budget-adjustment paths is masked.</span>
+      </div>
+      <div class="gate">
+        <strong>Replay metadata</strong>
+        <span>Every PPO experience row must persist observation, action mask, log-prob, value estimate, policy version, and config hash. Trajectories missing fields cannot train.</span>
+      </div>
+      <div class="gate">
+        <strong>Mutation auditability</strong>
+        <span>Every external GitHub write goes through a single adapter that attaches an idempotency key and writes an audit record. No external mutation outside this path.</span>
+      </div>
+      <div class="gate">
+        <strong>Spawn limits</strong>
+        <span>Live agent count is capped at <code>agent_spawn.max_total</code>, with per-config caps at <code>agent_spawn.max_per_config</code>. No spawning if an idle agent of the same type/tier already exists.</span>
+      </div>
+    </div>
+
+    <h2>Scope, currently soft</h2>
+    <p>Scope validation enforces issue-inflation limits today. The policy is penalized (and in some cases masked) when issue count grows faster than work closes. Artifact drift detection is <em>evidence-only</em> in v1: Swink AgentShore records when a PR touches files outside the issue's apparent scope, but doesn't block on it until beads-native path boundaries are reliable enough to gate on.</p>
+
+    <p>Soft today, hard later. The interesting choice is admitting which is which.</p>
+
+    <h2>The deeper rule</h2>
+    <p>Hard gates are <strong>architectural invariants, not prompt instructions</strong>. They live in the executor and the mask catalog, not in the system prompt. The reasoning is the same as cross-framework review: irreversible mistakes are exactly the ones you cannot afford to learn from negative reward, and prompt-level safety drifts under any sufficient amount of pressure.</p>
+
+    <p>The right autonomy posture isn't "lock everything down." It's "lock down the things that, if they go wrong once, ruin everything. And let the agent do everything else."</p>
+
+    <div class="footer">
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a>
+      <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
