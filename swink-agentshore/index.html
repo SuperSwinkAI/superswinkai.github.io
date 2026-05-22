@@ -43,6 +43,40 @@
     }
     .back-link:hover { color: var(--accent); }
 
+    .experiment-banner {
+      margin: 0 0 2rem 0;
+      padding: 1rem 1.25rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--muted);
+      max-width: 720px;
+    }
+    .experiment-banner .status-label {
+      display: inline-block;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+    .experiment-banner .status-label .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      margin-right: 0.55rem;
+      vertical-align: middle;
+      transform: translateY(-1px);
+    }
+    .experiment-banner p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .experiment-banner p + p { margin-top: 0.45rem; color: var(--muted); }
+
     .eyebrow {
       font-size: 0.75rem;
       letter-spacing: 2px;
@@ -442,6 +476,12 @@
 <body>
   <div class="container">
     <a href="/" class="back-link">&larr; SuperSwink</a>
+
+    <aside class="experiment-banner" aria-label="Project status">
+      <div class="status-label"><span class="dot"></span>Status &middot; Experiment</div>
+      <p>This is one engineer's bet on a half-formed idea.</p>
+      <p>What's on this page is the most coherent version of it today; the idea itself may turn out to be wrong. Figuring it out in public.</p>
+    </aside>
 
     <div class="hero">
       <img class="hero-photo" src="/images/robots-transparent-alpha.png" alt="A large humanoid cobot orchestrating smaller assembly robots on a conveyor.">
