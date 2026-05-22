@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The TUI &middot; Swink AgentShore</title>
+  <meta name="description" content="A breakdown of the Swink AgentShore TUI, the terminal companion to the Dashboard. Read-only by design — built so the Human Engineer can leave the keyboard for hours and trust the run.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f6ff;
+      --panel-strong: #ffffff;
+      --text: #1f2940;
+      --muted: #6d768b;
+      --line: #d6deec;
+      --accent: #0f8a6c;
+      --grid: #009cd6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem 1.5rem;
+    }
+    a { color: var(--grid); text-decoration: none; }
+    a:hover { color: var(--accent); }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grid);
+      font-weight: 600;
+    }
+
+    .hero { margin-bottom: 2rem; }
+    h1 {
+      font-size: 2.75rem;
+      margin: 0.5rem 0 0.5rem 0;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin: 0.5rem 0 1rem 0;
+      max-width: 640px;
+    }
+    p {
+      color: var(--muted);
+      margin: 0.75rem 0;
+      max-width: 720px;
+    }
+    p strong { color: var(--text); font-weight: 600; }
+
+    .read-only-callout {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.5rem;
+      background: var(--panel-strong);
+      border: 2px solid var(--accent);
+      max-width: 720px;
+    }
+    .read-only-callout .label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .read-only-callout p {
+      color: var(--text);
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+
+    .term-figure {
+      margin: 2rem 0 0 0;
+      padding: 0;
+    }
+    .term-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #000;
+      border: 1px solid var(--line);
+    }
+    .term-figure figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 720px;
+    }
+
+    .section { margin-top: 3rem; }
+    h2 {
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.01em;
+    }
+    .section-lead {
+      color: var(--muted);
+      max-width: 720px;
+      margin-bottom: 1.5rem;
+    }
+
+    .region-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 1.25rem 0;
+    }
+    .region {
+      padding: 1.1rem 1.25rem 1.25rem 1.25rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--grid);
+      display: flex;
+      flex-direction: column;
+    }
+    .region.center { border-left-color: var(--accent); }
+    .region .region-label {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--grid);
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+    }
+    .region.center .region-label { color: var(--accent); }
+    .region h3 {
+      margin: 0 0 0.4rem 0;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .region p {
+      margin: 0 0 0.65rem 0;
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .region p:last-child { margin-bottom: 0; }
+    .region .reads {
+      margin-top: auto;
+      padding-top: 0.55rem;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-top: 1px dashed var(--line);
+    }
+    .region .reads strong {
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    .keys {
+      margin: 1.25rem 0;
+      padding: 1.1rem 1.25rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      max-width: 720px;
+    }
+    .keys h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .keys dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.45rem 1rem;
+      font-size: 0.92rem;
+    }
+    .keys dt {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--text);
+      font-weight: 700;
+      padding-top: 0.1rem;
+    }
+    .keys dt kbd {
+      background: #0e1525;
+      color: #d6deec;
+      font-family: "JetBrains Mono", monospace;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.8rem;
+      border: 1px solid var(--line);
+    }
+    .keys dd { margin: 0; color: var(--muted); padding-top: 0.15rem; }
+
+    .nope-row {
+      margin: 1rem 0 0 0;
+      padding: 0;
+      list-style: none;
+      max-width: 720px;
+    }
+    .nope-row li {
+      padding: 0.8rem 1rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--muted);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .nope-row li strong { color: var(--text); font-weight: 600; }
+    .nope-row li span { color: var(--muted); }
+
+    .footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 720px) {
+      h1 { font-size: 2.1rem; }
+      .subtitle { font-size: 1.1rem; }
+      .region-grid { grid-template-columns: 1fr; }
+      .container { padding: 1.5rem 1rem 3rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a>
+
+    <div class="hero">
+      <div class="eyebrow">The TUI &middot; one of two UIs</div>
+      <h1>Same window, from the terminal</h1>
+      <p class="subtitle">A Textual-based companion to the Dashboard. Same read-only posture, same walk-away promise, rendered in a single pane of glass that fits over SSH.</p>
+    </div>
+
+    <div class="read-only-callout">
+      <span class="label">The posture</span>
+      <p>The TUI is a live monitor over the same session state the Dashboard renders. It does not let you assign work, retry a play, or steer an agent. The footer keys are navigation, inspection, and alarm-time escape hatches &mdash; not steering. The policy still picks every play.</p>
+    </div>
+
+    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore ships two UIs: the <a href="/swink-agentshore/dashboard">Dashboard</a> (the desktop GUI, with the pixel-art floorplan) and the <strong>TUI</strong> (this page). Both subscribe to the same audit log. Pick whichever fits where you're sitting &mdash; on the laptop after dinner, or over SSH from a hotel.</p>
+
+    <figure class="term-figure">
+      <img src="/images/agentshore-tui.png" alt="The Swink AgentShore TUI: header, agents panel, recent plays table, a bottom row of epic closure / budget / work queue, the session line, and a footer of key bindings.">
+      <figcaption>The TUI mid-session. One agent on <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">seed_project</code>. Bottom row: Epic Closure with the global bar tracking against 665 tasks, Budget at $0.05 / $200, Work Queue showing 200 issues / 7 PRs / next up #181. The footer lists every binding the TUI exposes &mdash; the actual control surface.</figcaption>
+    </figure>
+
+    <div class="section">
+      <div class="eyebrow">Why a TUI at all</div>
+      <h2>The Dashboard is the home, the TUI is the laptop on the train</h2>
+      <p>The Dashboard is the default surface &mdash; pixel-art office floorplan, full theme system, the works. But sessions run for hours, and the Human Engineer isn't always on the machine that started them. The TUI exists so the same read-only window works over SSH, on a thin client, or on a laptop where you don't want a Tauri window resident in memory.</p>
+      <p>Both UIs read the same audit log. <strong>Closing one doesn't affect the run.</strong> Opening the other doesn't either. They are observers, not the orchestrator.</p>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">The breakdown</div>
+      <h2>Eight regions, one screen</h2>
+      <p class="section-lead">Each region renders a slice of the latest session snapshot. None of them are interactive in the steering sense &mdash; the footer keys let you navigate, inspect, pause, and end the session, but never assign a play or override the policy mid-tick.</p>
+
+      <div class="region-grid">
+        <div class="region">
+          <div class="region-label">Top &middot; alert-only</div>
+          <h3>1. The alert bar</h3>
+          <p>Hidden by default. Only visible when something needs attention &mdash; a loop-detection escalation, a feedback-needed prompt, or a session-paused notice. The TUI surfaces the alarm; it does not auto-resolve it.</p>
+          <div class="reads"><strong>Shows when:</strong> loop_detected &middot; feedback_requested &middot; session_paused</div>
+        </div>
+
+        <div class="region center">
+          <div class="region-label">Upper pane</div>
+          <h3>2. Agents &amp; Active Plays</h3>
+          <p>Up to ten agents in a dense table: live status glyph, name, state, current play, target (issue or PR), elapsed time, context window in use, and dollar cost. The roster the Dashboard renders as sprites &mdash; in one screen of text.</p>
+          <div class="reads"><strong>Status:</strong> <span style="color:var(--accent)">◉</span> busy &middot; <span style="color:var(--muted)">●</span> idle &middot; <span style="color:#c2410c">✕</span> error &middot; <span style="color:var(--muted)">—</span> terminated</div>
+        </div>
+
+        <div class="region">
+          <div class="region-label">Middle pane</div>
+          <h3>3. Recent Plays (last 5)</h3>
+          <p>A scrollable DataTable of the most recent completed plays, newest first. Each row: play ID, play name, result, the reward delta (&Delta;) the policy received, cost, and duration. This is the trajectory the policy is learning from &mdash; surfaced read-only.</p>
+          <div class="reads"><strong>Columns:</strong> ID &middot; Play &middot; Result &middot; &Delta; &middot; Cost &middot; Duration</div>
+        </div>
+
+        <div class="region center">
+          <div class="region-label">Bottom row, 3-up</div>
+          <h3>4. Epic Closure</h3>
+          <p>Global closure ratio at the top, then per-epic bars showing closed / total tasks. The background tint shifts low / medium / high as the average alignment crosses thresholds. The same beads-graph signal that drives the policy's alignment reward.</p>
+          <div class="reads"><strong>Sources:</strong> beads project graph</div>
+        </div>
+
+        <div class="region center">
+          <div class="region-label">Bottom row, 3-up</div>
+          <h3>5. Budget</h3>
+          <p>Spent and remaining against the cap. A 20-cell █░ bar with a percentage. The border tints green / amber / red as you cross 50% / 20% remaining. The headline number the Human Engineer set before walking away.</p>
+          <div class="reads"><strong>Reads:</strong> $3.61 / $200.00 &middot; 98% remaining &middot; avg/play $0.26</div>
+        </div>
+
+        <div class="region center">
+          <div class="region-label">Bottom row, 3-up</div>
+          <h3>6. Work Queue</h3>
+          <p>Open issues, how many are ready, how many in progress. Open PRs, blocked, drafts. Reviews queued. The next-up issue title. This is the policy's working set rendered as numbers, not the policy's choice.</p>
+          <div class="reads"><strong>Sources:</strong> GitHub adapter &middot; beads ready set</div>
+        </div>
+
+        <div class="region">
+          <div class="region-label">Lower bar</div>
+          <h3>7. Session line</h3>
+          <p>One row of RL telemetry: session state, policy mode, total plays, success counts, total cost, failure streak, last play, and how many of the 20 actions are eligible right now vs masked. The compact view of what the policy is doing.</p>
+          <div class="reads"><strong>Reads:</strong> state=running &middot; policy=learning &middot; plays=14 &middot; eligible=4 masked=16</div>
+        </div>
+
+        <div class="region">
+          <div class="region-label">Footer</div>
+          <h3>8. Key bindings</h3>
+          <p>A single row of single-character bindings. Three end the session in different ways, two are escape hatches when the policy is stuck, the rest navigate to subscreens (epics, agent detail, help, palette). Every binding is enumerated below.</p>
+          <div class="reads"><strong>See below</strong> &middot; navigation + escape hatches</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">The footer keys</div>
+      <h2>Navigation, inspection, escape hatches</h2>
+      <p>Every binding the TUI exposes is in the footer. Group them three ways: <strong>ending the session</strong> (three ways out, from soft to hard), <strong>escape hatches</strong> for when the policy is stuck or off course, and <strong>navigation</strong> into subscreens and inspection views. None of them assign a play.</p>
+
+      <div class="keys">
+        <h3>End the session</h3>
+        <dl>
+          <dt><kbd>q</kbd> Quit</dt>
+          <dd>Soft quit. Drains the session &mdash; in-flight plays finish, no new plays dispatch, then the TUI closes. The same End Session play the policy can choose, on demand.</dd>
+          <dt><kbd>^q</kbd> End (graceful)</dt>
+          <dd>Tell the orchestrator to drain at the next safe boundary. The session winds down cleanly even if the TUI is the wrong place to do it from.</dd>
+          <dt><kbd>shift + ^q</kbd> End (hard)</dt>
+          <dd>Cut the session now. In-flight plays are aborted. Reserved for the cases where graceful drain isn't fast enough.</dd>
+        </dl>
+      </div>
+
+      <div class="keys">
+        <h3>Escape hatches</h3>
+        <dl>
+          <dt><kbd>r</kbd> Manual Revert</dt>
+          <dd>When a loop alert is firing, prompts you to pause and run <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">git revert</code> outside the session. Otherwise generates a report. The TUI never touches your git history itself.</dd>
+          <dt><kbd>o</kbd> Override</dt>
+          <dd>Opens the override screen &mdash; the one path where the Human Engineer can correct course mid-session. Used for the cases the gates don't cover and the policy can't recover from on its own.</dd>
+          <dt><kbd>p</kbd> Pause / Resume</dt>
+          <dd>Holds the dispatcher. In-flight plays finish, no new plays start, the session sits idle until you resume. Useful when the alarm is "let me look at this before another play fires."</dd>
+        </dl>
+      </div>
+
+      <div class="keys">
+        <h3>Navigation &amp; inspection</h3>
+        <dl>
+          <dt><kbd>g</kbd> Epics</dt>
+          <dd>Jump to the epics screen &mdash; the full per-epic closure breakdown the dashboard summarizes in three bars.</dd>
+          <dt><kbd>d</kbd> Agent</dt>
+          <dd>Open the selected agent's detail screen. Trajectory, recent plays, context, spend. Read-only, like the rest.</dd>
+          <dt><kbd>^p</kbd> Palette</dt>
+          <dd>The command palette &mdash; jump to any screen or action by name. The Textual analog of <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">Cmd+K</code>.</dd>
+          <dt><kbd>?</kbd> Help</dt>
+          <dd>The full keymap and screen index, so the footer doesn't have to.</dd>
+        </dl>
+      </div>
+
+      <p>Three exits, three escape hatches, four navigation keys. Nothing in the set lets you reassign a play, override a single decision, or steer an agent's prompt. If the binding you need isn't there, the answer is upstream &mdash; tighter spec, adjusted budget, a hard gate the catalog should have. Not a richer TUI.</p>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">Responsive layout</div>
+      <h2>The same screen at 100, 60, and 40 columns</h2>
+      <p>The TUI snaps between three layouts based on terminal width. At <strong>&ge;100 columns</strong> you get the full mock above. At <strong>60-99</strong> the play history trims visible rows and the three-up bottom row stacks. At <strong>40-59</strong> only the essentials render. Below 40 the screen replaces itself with an alert telling you to resize. The contract is that the read-only window keeps working no matter where you're SSH'd in from.</p>
+    </div>
+
+    <div class="section">
+      <div class="eyebrow">What it is not</div>
+      <h2>Things the TUI intentionally doesn't do</h2>
+      <p>Same negative space as the Dashboard. Different rendering, same posture.</p>
+
+      <ul class="nope-row">
+        <li><strong>No "assign this play" prompt.</strong> <span>You can't <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">:play</code> a command. The policy picks.</span></li>
+        <li><strong>No agent prompt box.</strong> <span>Selecting an agent shows its trajectory line. There's no text input to direct it.</span></li>
+        <li><strong>No interactive PR review.</strong> <span>Review lives in GitHub. The TUI reports the audit.</span></li>
+        <li><strong>No spec editor.</strong> <span>The spec is upstream. Edit it in the repo, start a new session.</span></li>
+        <li><strong>No mouse-driven menus.</strong> <span>One row of single-key bindings, no chrome. The terminal is a window, not a controls panel.</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>The shared rule</h2>
+      <p>The Dashboard and the TUI render the same audit. They make the same promise: the run keeps going whether you're watching or not. <strong>The whole point of AgentShoring is the walk.</strong> The TUI is just the version of the window that fits over SSH.</p>
+    </div>
+
+    <div class="footer">
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a>
+      <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
