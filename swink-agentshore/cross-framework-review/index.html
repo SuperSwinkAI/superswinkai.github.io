@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cross-Framework Review &middot; Swink AgentShore</title>
-  <meta name="description" content="Code review and QA run on a different framework than the author. Confirmation bias compounds when an agent reviews itself.">
+  <meta name="description" content="Code review runs on a different framework than the author. Confirmation bias compounds when an agent reviews itself.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -87,7 +87,7 @@
 
     <div class="eyebrow">Anti-confirmation bias</div>
     <h1>Claude doesn't grade Claude</h1>
-    <p class="subtitle">Code review and QA run on a different framework than the author. Not by convention. By architectural invariant.</p>
+    <p class="subtitle">Code review runs on a different framework than the author. Not by convention. By architectural invariant.</p>
 
     <h2>The failure mode</h2>
     <p>When an LLM Agent reviews its own output, the failure looks <em>exactly</em> like success. The same model that produced the PR is asked whether the PR is good, and the same biases that shaped the code shape the review. There's no contradiction, no missed assumption, no second opinion. Just a confirmatory loop that gets faster the more it's run.</p>
@@ -121,7 +121,7 @@
       </div>
     </div>
 
-    <p>The policy can't route around it. The <em>Code Review</em> play has a <a href="/swink-agentshore/ppo-policy">hard precondition</a>: <code>reviewer.framework != author.framework</code>. If no eligible reviewer is available right now, the play is masked. The policy picks something else, or instantiates the right LLM Agent first.</p>
+    <p>The policy can't route around it. The <em>Code Review</em> play has a <a href="/swink-agentshore/ppo-policy">hard precondition</a>: <code>reviewer.identity != author.identity</code> &mdash; and because each agent framework runs under its own GitHub identity, a different identity means a different framework. If no eligible reviewer is available right now, the play is masked. The policy picks something else, or instantiates the right LLM Agent first.</p>
 
     <h2>Why this stays even on human override</h2>
     <p>Most autonomy gates can be overridden by a human. The anti-confirmation rule cannot. The reasoning is unglamorous: humans are <em>worse</em> at catching confirmation bias under time pressure, and "just this once" is the most common shape of an incident postmortem.</p>

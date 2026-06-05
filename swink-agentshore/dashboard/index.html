@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Dashboard &middot; Swink AgentShore</title>
-  <meta name="description" content="A breakdown of the Swink AgentShore Dashboard, the desktop GUI. Read-only by design — built so the Human Engineer can leave the keyboard for hours and trust the run.">
+  <meta name="description" content="A breakdown of the Swink AgentShore Dashboard, the browser-based pixel-art view. Read-only by design — built so the Human Engineer can leave the keyboard for hours and trust the run.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -254,7 +254,7 @@
       <p>The Dashboard shows what the RL Agent is doing and what it just did. It does not let you click to assign work, retry a play, or steer an agent. If you closed the window, the run would keep going.</p>
     </div>
 
-    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore ships two UIs: the <strong>Dashboard</strong> (the desktop GUI, broken down on this page) and the <a href="/swink-agentshore/tui"><strong>TUI</strong></a> (a terminal companion for the same session). Both are read-only views over the same audit log &mdash; pick whichever fits where you're sitting.</p>
+    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore ships two UIs: the <strong>Dashboard</strong> (the browser-based pixel-art view &mdash; opened in your browser via <code>agentshore dashboard</code> from the CLI, and rendered natively inside the macOS desktop app during a running session; broken down on this page) and the <a href="/swink-agentshore/tui"><strong>TUI</strong></a> (a terminal companion for the same session). Both are read-only views over the same audit log &mdash; pick whichever fits where you're sitting.</p>
 
     <figure class="shot-figure">
       <img src="/images/agentshore-desktop.png" alt="The Swink AgentShore Dashboard: a four-pane window with a play log on the left, a pixel-art office floorplan in the center, an agents roster on the right, and a plays palette across the bottom.">
@@ -306,8 +306,8 @@
         <div class="region">
           <div class="region-label">Bottom palette</div>
           <h3>5. The plays palette</h3>
-          <p>The 20-action catalog the RL Agent picks from each tick. The highlighted tile is the play currently dispatching. Faded tiles are <em>masked</em> &mdash; not legal right now, by gate or by precondition. This is the policy's action space, surfaced for inspection, not a menu the human chooses from.</p>
-          <div class="reads"><strong>Reads:</strong> 4 ACTIVE &middot; 0 READY &middot; 19 MASKED &middot; 20 TOTAL</div>
+          <p>The 22-action catalog the RL Agent picks from each tick. The highlighted tile is the play currently dispatching. Faded tiles are <em>masked</em> &mdash; not legal right now, by gate or by precondition. This is the policy's action space, surfaced for inspection, not a menu the human chooses from.</p>
+          <div class="reads"><strong>Reads:</strong> 4 ACTIVE &middot; 0 READY &middot; 18 MASKED &middot; 22 TOTAL</div>
         </div>
 
         <div class="region">

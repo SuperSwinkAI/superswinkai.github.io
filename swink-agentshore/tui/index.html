@@ -326,8 +326,8 @@
         <div class="region">
           <div class="region-label">Lower bar</div>
           <h3>7. Session line</h3>
-          <p>One row of RL telemetry: session state, policy mode, total plays, success counts, total cost, failure streak, last play, and how many of the 20 actions are eligible right now vs masked. The compact view of what the policy is doing.</p>
-          <div class="reads"><strong>Reads:</strong> state=running &middot; policy=learning &middot; plays=14 &middot; eligible=4 masked=16</div>
+          <p>One row of RL telemetry: session state, policy mode, total plays, success counts, total cost, failure streak, last play, and how many of the 22 actions are eligible right now vs masked. The compact view of what the policy is doing.</p>
+          <div class="reads"><strong>Reads:</strong> state=running &middot; policy=learning &middot; plays=14 &middot; eligible=4 masked=18</div>
         </div>
 
         <div class="region">
@@ -341,30 +341,25 @@
 
     <div class="section">
       <div class="eyebrow">The footer keys</div>
-      <h2>Navigation, inspection, escape hatches</h2>
-      <p>Every binding the TUI exposes is in the footer. Group them three ways: <strong>ending the session</strong> (three ways out, from soft to hard), <strong>escape hatches</strong> for when the policy is stuck or off course, and <strong>navigation</strong> into subscreens and inspection views. None of them assign a play.</p>
+      <h2>Navigation, inspection, and the way out</h2>
+      <p>Every binding the main TUI exposes is in the footer. Group them three ways: <strong>ending the session</strong> (graceful or hard), the single <strong>pause</strong> lever, and <strong>navigation</strong> into subscreens and inspection views. None of them assign a play, override a decision, or steer an agent.</p>
 
       <div class="keys">
         <h3>End the session</h3>
         <dl>
-          <dt><kbd>q</kbd> Quit</dt>
-          <dd>Soft quit. Drains the session &mdash; in-flight plays finish, no new plays dispatch, then the TUI closes. The same End Session play the policy can choose, on demand.</dd>
           <dt><kbd>^q</kbd> End (graceful)</dt>
-          <dd>Tell the orchestrator to drain at the next safe boundary. The session winds down cleanly even if the TUI is the wrong place to do it from.</dd>
+          <dd>Tell the orchestrator to drain at the next safe boundary. In-flight plays finish, no new plays dispatch, then the session winds down cleanly.</dd>
           <dt><kbd>shift + ^q</kbd> End (hard)</dt>
           <dd>Cut the session now. In-flight plays are aborted. Reserved for the cases where graceful drain isn't fast enough.</dd>
         </dl>
+        <p>Once a drain starts, the shutdown screen adds <kbd>q</kbd> Quit and <kbd>r</kbd> Report &mdash; the only place those two keys are live.</p>
       </div>
 
       <div class="keys">
-        <h3>Escape hatches</h3>
+        <h3>Pause</h3>
         <dl>
-          <dt><kbd>r</kbd> Manual Revert</dt>
-          <dd>When a loop alert is firing, prompts you to pause and run <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">git revert</code> outside the session. Otherwise generates a report. The TUI never touches your git history itself.</dd>
-          <dt><kbd>o</kbd> Override</dt>
-          <dd>Opens the override screen &mdash; the one path where the Human Engineer can correct course mid-session. Used for the cases the gates don't cover and the policy can't recover from on its own.</dd>
           <dt><kbd>p</kbd> Pause / Resume</dt>
-          <dd>Holds the dispatcher. In-flight plays finish, no new plays start, the session sits idle until you resume. Useful when the alarm is "let me look at this before another play fires."</dd>
+          <dd>Holds the dispatcher. In-flight plays finish, no new plays start, the session sits idle until you resume. The one in-session lever &mdash; useful when the alarm is "let me look at this before another play fires."</dd>
         </dl>
       </div>
 
@@ -375,14 +370,16 @@
           <dd>Jump to the epics screen &mdash; the full per-epic closure breakdown the dashboard summarizes in three bars.</dd>
           <dt><kbd>d</kbd> Agent</dt>
           <dd>Open the selected agent's detail screen. Trajectory, recent plays, context, spend. Read-only, like the rest.</dd>
-          <dt><kbd>^p</kbd> Palette</dt>
-          <dd>The command palette &mdash; jump to any screen or action by name. The Textual analog of <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">Cmd+K</code>.</dd>
+          <dt><kbd>i</kbd> Issues</dt>
+          <dd>The issue backlog as Swink AgentShore sees it &mdash; the open work the policy is sequencing through GitHub.</dd>
+          <dt><kbd>l</kbd> Learnings</dt>
+          <dd>Session learnings and agent handoffs &mdash; the notes carried forward into later plays' context.</dd>
           <dt><kbd>?</kbd> Help</dt>
           <dd>The full keymap and screen index, so the footer doesn't have to.</dd>
         </dl>
       </div>
 
-      <p>Three exits, three escape hatches, four navigation keys. Nothing in the set lets you reassign a play, override a single decision, or steer an agent's prompt. If the binding you need isn't there, the answer is upstream &mdash; tighter spec, adjusted budget, a hard gate the catalog should have. Not a richer TUI.</p>
+      <p>Two exits, one pause, five inspection views. Nothing in the set lets you reassign a play, override a single decision, or steer an agent's prompt. If the binding you need isn't there, the answer is upstream &mdash; tighter spec, adjusted budget, a hard gate the catalog should have. Not a richer TUI.</p>
     </div>
 
     <div class="section">

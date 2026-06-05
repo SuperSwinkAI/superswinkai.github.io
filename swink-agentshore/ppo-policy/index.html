@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Learned Manager &middot; Swink AgentShore</title>
-  <meta name="description" content="A small PPO policy chooses among 20 macro-plays each tick. Decisions are masked, measurable, and improve with every session.">
+  <meta name="description" content="A small PPO policy chooses among 19 macro-plays each tick. Decisions are masked, measurable, and improve with every session.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -118,15 +118,15 @@
     <div class="spec-grid">
       <div class="spec">
         <div class="label">Parameters</div>
-        <div class="value">~42K</div>
+        <div class="value">~51K</div>
       </div>
       <div class="spec">
         <div class="label">Observation</div>
-        <div class="value">238<span class="unit"> dim</span></div>
+        <div class="value">246<span class="unit"> dim</span></div>
       </div>
       <div class="spec">
         <div class="label">Action head</div>
-        <div class="value">20<span class="unit"> discrete</span></div>
+        <div class="value">22<span class="unit"> discrete</span></div>
       </div>
       <div class="spec">
         <div class="label">Update cadence</div>
@@ -135,7 +135,7 @@
     </div>
 
     <h2>The action space</h2>
-    <p>Eighteen plays the policy picks from, plus two reserved slots that are masked at runtime.</p>
+    <p>Nineteen plays the policy picks from, plus three reserved slots that are masked at runtime.</p>
 
     <div class="plays">
       <div class="play"><span class="idx">04</span> Issue Pickup</div>
@@ -149,15 +149,17 @@
       <div class="play"><span class="idx">16</span> Groom Backlog</div>
       <div class="play"><span class="idx">00</span> Instantiate Agent</div>
       <div class="play"><span class="idx">13</span> Cleanup</div>
-      <div class="play"><span class="idx">14</span> Browser Verify</div>
+      <div class="play"><span class="idx">11</span> Reconcile State</div>
       <div class="play"><span class="idx">09</span> Design Audit</div>
       <div class="play"><span class="idx">03</span> End Agent</div>
       <div class="play"><span class="idx">17</span> Seed Project</div>
       <div class="play"><span class="idx">18</span> Calibrate Align</div>
       <div class="play"><span class="idx">10</span> End Session</div>
       <div class="play"><span class="idx">15</span> Take Break</div>
-      <div class="play masked"><span class="idx">11</span> Reserved</div>
-      <div class="play masked"><span class="idx">19</span> Reserved</div>
+      <div class="play"><span class="idx">19</span> Prune</div>
+      <div class="play masked"><span class="idx">14</span> Reserved</div>
+      <div class="play masked"><span class="idx">20</span> Reserved</div>
+      <div class="play masked"><span class="idx">21</span> Reserved</div>
     </div>
 
     <h2>Ineligible plays are masked, not penalized</h2>

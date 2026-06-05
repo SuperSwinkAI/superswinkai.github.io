@@ -231,13 +231,13 @@
       <div class="eyebrow">What's different</div>
       <h2>A learned manager, not a smarter worker</h2>
       <p class="section-lead">
-        Four design choices that separate Swink AgentShore from a prompt-engineered loop or a hand-authored DAG.
+        Five design choices that separate Swink AgentShore from a prompt-engineered loop or a hand-authored DAG.
       </p>
 
       <div class="features">
         <div class="feature">
           <strong>Decisions are learned, not scripted</strong>
-          <span>A PPO actor-critic chooses among 20 macro-plays each tick. Cold-start logits bias toward issue pickup, code review, QA, and merge. The policy improves with every session.</span>
+          <span>A PPO actor-critic chooses among 19 macro-plays each tick. Cold-start logits bias toward issue pickup, code review, QA, and merge. The policy improves with every session.</span>
           <a href="/swink-agentshore/ppo-policy" class="learn-more">How the policy works &rarr;</a>
         </div>
         <div class="feature">
@@ -255,6 +255,11 @@
           <span>The default control loop is autonomous. Issues get created, edited, labeled, and merged without human approval. Hard gates cover anti-confirmation, merge readiness, budget exhaustion, and audit.</span>
           <a href="/swink-agentshore/hard-gates" class="learn-more">Autonomy &amp; gates &rarr;</a>
         </div>
+        <div class="feature">
+          <strong>Nothing inherited at dispatch</strong>
+          <span>Every spawned subprocess gets a six-piece envelope assembled per play: rendered SKILL.md, beads task graph, GitHub mirror, identity overlay, working directory, and limits. Nothing leaks in from the calling shell.</span>
+          <a href="/swink-agentshore/dispatch" class="learn-more">The dispatch envelope &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -269,7 +274,7 @@
         <div class="surface surface-primary">
           <div class="surface-label">Default surface</div>
           <h3>Swink AgentShore.app</h3>
-          <p>Tauri-based. macOS, Windows, Linux. Bundles the <code>bd</code> sidecar so there's nothing to install separately.</p>
+          <p>Tauri-based. macOS today (Apple Silicon); Windows and Linux planned. Bundles the <code>bd</code> sidecar so there's nothing to install separately.</p>
           <ul class="surface-list">
             <li>Live pixel-art dashboard of the running session</li>
             <li>Session start, stop, and status</li>
@@ -287,10 +292,7 @@
 <span class="prompt">$</span> <span class="cmd">agentshore start</span>
 
 <span class="comment"># open the dashboard against a running session</span>
-<span class="prompt">$</span> <span class="cmd">agentshore dashboard</span>
-
-<span class="comment"># offline PPO training on accumulated session data</span>
-<span class="prompt">$</span> <span class="cmd">agentshore train</span></pre>
+<span class="prompt">$</span> <span class="cmd">agentshore dashboard</span></pre>
         </div>
       </div>
     </div>
