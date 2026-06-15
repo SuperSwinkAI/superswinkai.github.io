@@ -63,6 +63,31 @@
       margin: 0.5rem 0;
       max-width: 640px;
     }
+    .source-link {
+      display: flex;
+      width: fit-content;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      padding: 0.65rem 0.95rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--grid);
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .source-link:hover { color: var(--text); border-color: var(--accent); }
+    .source-link .badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--grid);
+      border: 1px solid var(--grid);
+      padding: 0.15rem 0.45rem;
+      white-space: nowrap;
+    }
+    .source-link strong { color: var(--grid); font-weight: 600; }
 
     .section { margin-top: 3rem; }
     h2 {
@@ -225,6 +250,10 @@
       <div class="eyebrow">Implementation</div>
       <h1>Dig into the tech</h1>
       <p class="subtitle">How the PPO policy picks plays, the three-layer ledger, cross-framework review, the autonomy posture, and how to run it.</p>
+      <a class="source-link" href="https://github.com/SuperSwinkAI/Swink-AgentShore">
+        <span class="badge">Open source</span>
+        <span>Read the source on <strong>GitHub &rarr;</strong></span>
+      </a>
     </div>
 
     <div class="section">

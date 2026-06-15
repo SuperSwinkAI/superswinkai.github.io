@@ -104,32 +104,61 @@
       flex: 1 1 320px;
       min-width: 280px;
     }
-    .download-soon {
+    .downloads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .download-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.7rem;
-      margin-top: 1rem;
+      gap: 0.6rem;
       padding: 0.65rem 0.95rem;
-      background: var(--panel-strong);
+      background: var(--accent);
       border: 1px solid var(--accent);
       font-size: 0.92rem;
-      color: var(--text);
+      color: #ffffff;
       line-height: 1.4;
+      transition: background 0.15s;
     }
-    .download-soon .badge {
+    .download-btn:hover { background: #0c6d56; color: #ffffff; }
+    .download-btn .badge {
       font-family: "JetBrains Mono", monospace;
       font-size: 0.7rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.6);
       padding: 0.15rem 0.45rem;
       white-space: nowrap;
     }
-    .download-soon strong {
-      color: var(--accent);
-      font-weight: 600;
+    .download-btn strong { color: #ffffff; font-weight: 700; }
+    .source-link {
+      display: flex;
+      width: fit-content;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
+      padding: 0.65rem 0.95rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--grid);
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.4;
     }
+    .source-link:hover { color: var(--text); border-color: var(--accent); }
+    .source-link .badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--grid);
+      border: 1px solid var(--grid);
+      padding: 0.15rem 0.45rem;
+      white-space: nowrap;
+    }
+    .source-link strong { color: var(--grid); font-weight: 600; }
     .definition {
       font-size: 0.85rem;
       color: var(--muted);
@@ -489,10 +518,20 @@
         <div class="eyebrow">Ecosystem &middot; AgentShoring</div>
         <h1>Swink AgentShore™</h1>
         <p class="tagline">An experiment in autopilot for a multi-agent workforce.</p>
-        <div class="download-soon">
-          <span class="badge">Soon</span>
-          <span>Download for Apple Silicon coming <strong>VERY</strong> soon</span>
+        <div class="downloads">
+          <a class="download-btn" href="https://github.com/SuperSwinkAI/Swink-AgentShore/releases/latest/download/AgentShore.pkg">
+            <span class="badge">macOS</span>
+            <span>Download for <strong>Apple Silicon</strong> &middot; .pkg</span>
+          </a>
+          <a class="download-btn" href="https://github.com/SuperSwinkAI/Swink-AgentShore/releases/download/v0.3.2/AgentShoreSetup-0.3.2-x64.exe">
+            <span class="badge">Windows</span>
+            <span>Download for <strong>Windows</strong> &middot; .exe</span>
+          </a>
         </div>
+        <a class="source-link" href="https://github.com/SuperSwinkAI/Swink-AgentShore">
+          <span class="badge">Open source</span>
+          <span>The code is on <strong>GitHub &rarr;</strong></span>
+        </a>
       </div>
     </div>
 
