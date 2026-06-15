@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Learned Manager &middot; Swink AgentShore</title>
+  <title>The Learned Manager &middot; Swink AgentShore™</title>
   <meta name="description" content="A small PPO policy chooses among 19 macro-plays each tick. Decisions are masked, measurable, and improve with every session.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,19 +106,19 @@
 </head>
 <body>
   <div class="container">
-    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
 
     <div class="eyebrow">The learned manager</div>
     <h1>The PPO policy</h1>
     <p class="subtitle">A small actor-critic network chooses the next play. It's the RL Agent. The LLM Agents are the muscle.</p>
 
     <h2>The shape of the thing</h2>
-    <p>The whole decision-maker inside Swink AgentShore is a single, small actor-critic MLP. It's deliberately tiny. You can train it, you can inspect it, you can replay it. The expensive thing is the LLM Agent that runs the play it picks.</p>
+    <p>The whole decision-maker inside Swink AgentShore™ is a single, small actor-critic MLP. It's deliberately tiny. You can train it, you can inspect it, you can replay it. The expensive thing is the LLM Agent that runs the play it picks.</p>
 
     <div class="spec-grid">
       <div class="spec">
         <div class="label">Parameters</div>
-        <div class="value">~51K</div>
+        <div class="value">&lt;120K</div>
       </div>
       <div class="spec">
         <div class="label">Observation</div>
@@ -163,7 +163,7 @@
     </div>
 
     <h2>Ineligible plays are masked, not penalized</h2>
-    <p>The policy can't pick them. No PR to review &rarr; <em>Code Review</em> is masked. Budget exhausted &rarr; only <em>End Session</em> remains.</p>
+    <p>The policy can't pick them. No PR to review &rarr; <em>Code Review</em> is masked. Dollar or time cap reached &rarr; only <em>End Session</em> remains.</p>
     <p>Every play has a precondition, and it's checked twice: once when building the action mask before the policy picks, and again at dispatch before the play actually runs. Belt and suspenders.</p>
     <p>Irreversible mistakes (merging the wrong thing, letting an author review their own PR) cost too much to learn from negative reward. <strong>Safety lives in the <a href="/swink-agentshore/hard-gates">hard-gate catalog</a>.</strong></p>
 
@@ -176,7 +176,7 @@
     <figure class="reward-chart">
       <svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="reward-chart-title reward-chart-desc">
         <title id="reward-chart-title">Rough reward magnitudes by play</title>
-        <desc id="reward-chart-desc">Horizontal divergent bar chart. Merge PR is the largest positive reward. Issue Pickup is a medium positive. Code Review and Run QA are small positives. Loop, Inflation, and Stagnation are negative, with Stagnation the largest penalty.</desc>
+        <desc id="reward-chart-desc">Horizontal divergent bar chart. Merge PR is the largest positive reward. Run QA is a medium positive. Issue Pickup and Code Review are small positives. Inflation is the largest penalty. Loop is a medium penalty. Stagnation is the smallest penalty.</desc>
 
         <style>
           .rc-title { font: 700 14px Inter, sans-serif; fill: #1f2940; }
@@ -198,33 +198,33 @@
         <line class="rc-grid" x1="190" y1="60" x2="190" y2="300"/>
         <line class="rc-grid" x1="710" y1="60" x2="710" y2="300"/>
 
-        <!-- Row 1: Merge PR (+10, big positive) -->
+        <!-- Row 1: Merge PR (largest positive) -->
         <text x="440" y="84" class="rc-label" text-anchor="end">Merge PR</text>
         <rect class="rc-bar-pos" x="450" y="72" width="260" height="20" rx="2"/>
 
-        <!-- Row 2: Issue Pickup (+6) -->
-        <text x="440" y="114" class="rc-label" text-anchor="end">Issue Pickup</text>
-        <rect class="rc-bar-pos" x="450" y="102" width="156" height="20" rx="2"/>
+        <!-- Row 2: Run QA (2nd positive) -->
+        <text x="440" y="114" class="rc-label" text-anchor="end">Run QA</text>
+        <rect class="rc-bar-pos" x="450" y="102" width="195" height="20" rx="2"/>
 
-        <!-- Row 3: Run QA (+4) -->
-        <text x="440" y="144" class="rc-label" text-anchor="end">Run QA</text>
+        <!-- Row 3: Issue Pickup (3rd positive) -->
+        <text x="440" y="144" class="rc-label" text-anchor="end">Issue Pickup</text>
         <rect class="rc-bar-pos" x="450" y="132" width="104" height="20" rx="2"/>
 
-        <!-- Row 4: Code Review (+4) -->
+        <!-- Row 4: Code Review (smallest positive) -->
         <text x="440" y="174" class="rc-label" text-anchor="end">Code Review</text>
-        <rect class="rc-bar-pos" x="450" y="162" width="104" height="20" rx="2"/>
+        <rect class="rc-bar-pos" x="450" y="162" width="78" height="20" rx="2"/>
 
-        <!-- Row 5: Loop (-5) -->
-        <text x="460" y="204" class="rc-label" text-anchor="start">Loop</text>
-        <rect class="rc-bar-neg" x="320" y="192" width="130" height="20" rx="2"/>
+        <!-- Row 5: Inflation (largest penalty) -->
+        <text x="460" y="204" class="rc-label" text-anchor="start">Inflation</text>
+        <rect class="rc-bar-neg" x="242" y="192" width="208" height="20" rx="2"/>
 
-        <!-- Row 6: Inflation (-6) -->
-        <text x="460" y="234" class="rc-label" text-anchor="start">Inflation</text>
+        <!-- Row 6: Loop (mid penalty) -->
+        <text x="460" y="234" class="rc-label" text-anchor="start">Loop</text>
         <rect class="rc-bar-neg" x="294" y="222" width="156" height="20" rx="2"/>
 
-        <!-- Row 7: Stagnation (-8) -->
+        <!-- Row 7: Stagnation (smallest penalty) -->
         <text x="460" y="264" class="rc-label" text-anchor="start">Stagnation</text>
-        <rect class="rc-bar-neg" x="242" y="252" width="208" height="20" rx="2"/>
+        <rect class="rc-bar-neg" x="372" y="252" width="78" height="20" rx="2"/>
 
         <!-- Scale labels -->
         <text x="190" y="320" class="rc-scale" text-anchor="start">PENALTY</text>
@@ -246,7 +246,7 @@
       </div>
       <div class="checkpoint">
         <strong>Budgets are first-class</strong>
-        <span>Every session runs against a budget cap. The policy learns to spend it well, and the mask catalog ensures it can't blow past it accidentally.</span>
+        <span>Every session runs against a dollar cap the policy learns to spend well, plus an optional wall-clock time cap enforced as a deterministic backstop the policy never sees. The mask catalog ensures neither gets blown past accidentally.</span>
       </div>
       <div class="checkpoint">
         <strong>Safety is in the mask</strong>
@@ -275,7 +275,7 @@
     </div>
 
     <div class="footer">
-      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
       <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
     </div>
   </div>

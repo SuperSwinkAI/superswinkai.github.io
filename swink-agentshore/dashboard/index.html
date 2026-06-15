@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Dashboard &middot; Swink AgentShore</title>
-  <meta name="description" content="A breakdown of the Swink AgentShore Dashboard, the browser-based pixel-art view. Read-only by design — built so the Human Engineer can leave the keyboard for hours and trust the run.">
+  <title>The Dashboard &middot; Swink AgentShore™</title>
+  <meta name="description" content="A breakdown of the Swink AgentShore™ Dashboard, the browser-based pixel-art view. Read-only by design — built so the Human Engineer can leave the keyboard for hours and trust the run.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -241,7 +241,7 @@
 </head>
 <body>
   <div class="container">
-    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a>
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore™</a>
 
     <div class="hero">
       <div class="eyebrow">The Dashboard &middot; one of two UIs</div>
@@ -254,10 +254,10 @@
       <p>The Dashboard shows what the RL Agent is doing and what it just did. It does not let you click to assign work, retry a play, or steer an agent. If you closed the window, the run would keep going.</p>
     </div>
 
-    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore ships two UIs: the <strong>Dashboard</strong> (the browser-based pixel-art view &mdash; opened in your browser via <code>agentshore dashboard</code> from the CLI, and rendered natively inside the macOS desktop app during a running session; broken down on this page) and the <a href="/swink-agentshore/tui"><strong>TUI</strong></a> (a terminal companion for the same session). Both are read-only views over the same audit log &mdash; pick whichever fits where you're sitting.</p>
+    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore™ ships two UIs: the <strong>Dashboard</strong> (the browser-based pixel-art view &mdash; opened in your browser via <code>agentshore dashboard</code> from the CLI, and rendered natively inside the macOS desktop app during a running session; broken down on this page) and the <a href="/swink-agentshore/tui"><strong>TUI</strong></a> (a terminal companion for the same session). Both are read-only views over the same audit log &mdash; pick whichever fits where you're sitting.</p>
 
     <figure class="shot-figure">
-      <img src="/images/agentshore-desktop.png" alt="The Swink AgentShore Dashboard: a four-pane window with a play log on the left, a pixel-art office floorplan in the center, an agents roster on the right, and a plays palette across the bottom.">
+      <img src="/images/agentshore-desktop.png" alt="The Swink AgentShore™ Dashboard: a four-pane window with a play log on the left, a pixel-art office floorplan in the center, an agents roster on the right, and a plays palette across the bottom.">
       <figcaption>The Dashboard in dark mode. Left: the play log. Center: the office floorplan, a live pixel-art rendering of the running session. Right: the agents roster with per-agent cost. Bottom: the plays palette and the budget bar.</figcaption>
     </figure>
 
@@ -313,8 +313,8 @@
         <div class="region">
           <div class="region-label">Budget &amp; status</div>
           <h3>6. The budget bar</h3>
-          <p>The cap is the only hard constraint the Human Engineer set before walking away. The bar shows spend against cap. When it tops out, every play except End Session and approved budget-adjustment paths is masked. The session winds down on its own.</p>
-          <div class="reads"><strong>Reads:</strong> $3.61 / $200.00</div>
+          <p>Two soft caps the Human Engineer set before walking away: a dollar cap and a wall-clock time cap, either one optional. The bar shows spend against the dollar cap and time left against the clock, with the meter filling toward whichever is closer to its limit. When either cap is reached, every play except End Session and approved budget-adjustment paths is masked &mdash; the session stops taking on new work and winds down on its own while in-flight agents finish.</p>
+          <div class="reads"><strong>Reads:</strong> $3.61 / $200.00 &middot; 14h 22m left</div>
         </div>
       </div>
     </div>
@@ -341,10 +341,10 @@
       <div class="away-figure">
         <span class="away-label">A typical session</span>
         <ol>
-          <li><strong>Set the budget cap and start the session.</strong> <span>The Human Engineer is at the keyboard for sixty seconds.</span></li>
+          <li><strong>Set the budget and time caps and start the session.</strong> <span>The Human Engineer is at the keyboard for sixty seconds.</span></li>
           <li><strong>Walk away.</strong> <span>Dinner, a movie, sleep, the day job. The Dashboard keeps rendering, but no one is watching.</span></li>
           <li><strong>The policy works the backlog.</strong> <span>Pick an issue, write a plan, open a PR, run cross-framework review, merge, repeat. Hard gates catch the things that must never happen.</span></li>
-          <li><strong>The session ends on its own.</strong> <span>Either the queue is drained, the budget is hit, or End Session was scheduled. The Dashboard freezes in its last state.</span></li>
+          <li><strong>The session ends on its own.</strong> <span>Either the queue is drained, the dollar or time cap is hit, or End Session was scheduled. The Dashboard freezes in its last state.</span></li>
           <li><strong>The Human Engineer comes back to the audit.</strong> <span>The play log, the merged PRs, the closed issues, the spend. Decide what to spec for the next run.</span></li>
         </ol>
       </div>
@@ -358,7 +358,7 @@
     </div>
 
     <div class="footer">
-      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a>
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a>
       <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
     </div>
   </div>

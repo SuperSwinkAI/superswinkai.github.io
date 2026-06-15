@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dig into the tech &middot; Swink AgentShore</title>
-  <meta name="description" content="Implementation overview: PPO policy, BEADS-native graph, cross-framework review, hard gates, and how to run Swink AgentShore via the desktop app or CLI.">
+  <title>Dig into the tech &middot; Swink AgentShore™</title>
+  <meta name="description" content="Implementation overview: PPO policy, BEADS-native graph, cross-framework review, hard gates, and how to run Swink AgentShore™ via the desktop app or CLI.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -219,7 +219,7 @@
 </head>
 <body>
   <div class="container">
-    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a>
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore™</a>
 
     <div class="hero">
       <div class="eyebrow">Implementation</div>
@@ -231,18 +231,18 @@
       <div class="eyebrow">What's different</div>
       <h2>A learned manager, not a smarter worker</h2>
       <p class="section-lead">
-        Five design choices that separate Swink AgentShore from a prompt-engineered loop or a hand-authored DAG.
+        Five design choices that separate Swink AgentShore™ from a prompt-engineered loop or a hand-authored DAG.
       </p>
 
       <div class="features">
         <div class="feature">
           <strong>Decisions are learned, not scripted</strong>
-          <span>A PPO actor-critic chooses among 19 macro-plays each tick. Cold-start logits bias toward issue pickup, code review, QA, and merge. The policy improves with every session.</span>
+          <span>A PPO actor-critic chooses among 19 active plays (22 action slots) each tick. Cold-start logits bias toward issue pickup, code review, QA, and merge. The policy improves with every session.</span>
           <a href="/swink-agentshore/ppo-policy" class="learn-more">How the policy works &rarr;</a>
         </div>
         <div class="feature">
           <strong>BEADS is the canonical graph</strong>
-          <span>Epics, stories, and tasks live in a beads-native graph. GitHub is the human surface. Swink AgentShore's SQLite holds the RL state. Alignment is tracked as a live per-tick delta.</span>
+          <span>Epics, stories, and tasks live in a beads-native graph. GitHub is the human surface. Swink AgentShore™'s SQLite holds the RL state. Alignment is tracked as a live per-tick delta.</span>
           <a href="/swink-agentshore/beads-graph" class="learn-more">The three-layer model &rarr;</a>
         </div>
         <div class="feature">
@@ -252,7 +252,7 @@
         </div>
         <div class="feature">
           <strong>YOLO by design, with hard gates</strong>
-          <span>The default control loop is autonomous. Issues get created, edited, labeled, and merged without human approval. Hard gates cover anti-confirmation, merge readiness, budget exhaustion, and audit.</span>
+          <span>The default control loop is autonomous. Issues get created, edited, labeled, and merged without human approval. Hard gates cover anti-confirmation, merge readiness, budget and time exhaustion, and audit.</span>
           <a href="/swink-agentshore/hard-gates" class="learn-more">Autonomy &amp; gates &rarr;</a>
         </div>
         <div class="feature">
@@ -267,14 +267,14 @@
       <div class="eyebrow">How you use it</div>
       <h2>Desktop app first. CLI when you want it.</h2>
       <p class="section-lead">
-        Most of the time you'll launch Swink AgentShore from the dock. The desktop app bundles the session, the pixel-art dashboard, and the project graph into one window. You watch the policy work in real time. The CLI is the same tool, headless, for CI and scripting.
+        Most of the time you'll launch Swink AgentShore™ from the dock. The desktop app bundles the session, the pixel-art dashboard, and the project graph into one window. You watch the policy work in real time. The CLI is the same tool, headless, for CI and scripting.
       </p>
 
       <div class="surface-grid">
         <div class="surface surface-primary">
           <div class="surface-label">Default surface</div>
-          <h3>Swink AgentShore.app</h3>
-          <p>Tauri-based. macOS today (Apple Silicon); Windows and Linux planned. Bundles the <code>bd</code> sidecar so there's nothing to install separately.</p>
+          <h3>Swink AgentShore™.app</h3>
+          <p>Tauri-based. macOS (Apple Silicon) and Windows available; Linux planned. Bundles the <code>bd</code> sidecar so there's nothing to install separately.</p>
           <ul class="surface-list">
             <li>Live pixel-art dashboard of the running session</li>
             <li>Session start, stop, and status</li>
@@ -308,7 +308,7 @@
         <div class="layer">
           <div class="layer-name">BEADS</div>
           <strong>The project graph</strong>
-          <span>Epics, stories, tasks. The canonical structure of the work. Swink AgentShore reads it; humans don't edit it directly.</span>
+          <span>Epics, stories, tasks. The canonical structure of the work. Swink AgentShore™ reads it; humans don't edit it directly.</span>
         </div>
         <div class="layer">
           <div class="layer-name">GitHub</div>
@@ -324,7 +324,7 @@
     </div>
 
     <div class="footer">
-      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a>
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a>
       <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
     </div>
   </div>

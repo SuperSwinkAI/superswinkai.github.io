@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The dispatch envelope &middot; Swink AgentShore</title>
-  <meta name="description" content="The architecture of what gets handed to an LLM Agent when Swink AgentShore dispatches a play. Six pieces of context, four source systems, one envelope — assembled per dispatch.">
+  <title>The dispatch envelope &middot; Swink AgentShore™</title>
+  <meta name="description" content="The architecture of what gets handed to an LLM Agent when Swink AgentShore™ dispatches a play. Six pieces of context, four source systems, one envelope — assembled per dispatch.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -204,14 +204,14 @@
 </head>
 <body>
   <div class="container">
-    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
 
     <div class="eyebrow">Dispatch anatomy</div>
-    <h1>What's actually <em>in the envelope</em> when AgentShore dispatches an LLM Agent.</h1>
+    <h1>What's actually <em>in the envelope</em> when AgentShore™ dispatches an LLM Agent.</h1>
     <p class="lede">Spawning a coding agent is one line of shell. Spawning one that knows what to do is the whole job.</p>
 
     <p class="lead">
-      You can shell out to <strong>claude</strong>. Or <strong>codex</strong>. Or <strong>gemini</strong>. The process starts in whatever directory the calling shell happens to be in. It signs commits with whatever <code>git config</code> it inherits. It reads whatever <code>CLAUDE.md</code> is closest on disk. It picks an issue to work on by &mdash; well, no one told it which one, so it picks. Sometimes the same one twice. Sometimes one that doesn't exist anymore. Sometimes it edits <code>.github/workflows/</code> because no one told it not to.
+      You can shell out to <strong>claude</strong>. Or <strong>codex</strong>. Or <strong>gemini</strong>. Or <strong>grok</strong>. The process starts in whatever directory the calling shell happens to be in. It signs commits with whatever <code>git config</code> it inherits. It reads whatever <code>CLAUDE.md</code> is closest on disk. It picks an issue to work on by &mdash; well, no one told it which one, so it picks. Sometimes the same one twice. Sometimes one that doesn't exist anymore. Sometimes it edits <code>.github/workflows/</code> because no one told it not to.
     </p>
 
     <div class="pull">
@@ -463,7 +463,7 @@
         </g>
       </svg>
     </div>
-    <div class="caption"><b>Fig. 2</b> &middot; The six pieces of context AgentShore assembles per dispatch. None of them come from the shell environment the LLM Agent happened to be launched in.</div>
+    <div class="caption"><b>Fig. 2</b> &middot; The six pieces of context AgentShore™ assembles per dispatch. None of them come from the shell environment the LLM Agent happened to be launched in.</div>
 
     <!-- =================================================================== -->
     <h2><span class="num">03 / Inside the context file</span>The structured side-channel the LLM Agent reads before it does anything.</h2>
@@ -512,11 +512,14 @@
     <span class="punct">}</span>
   <span class="punct">],</span>
 
-  <span class="key">"budget"</span><span class="punct">: {</span>                          <span class="cmt">// session-scoped, not global</span>
+  <span class="key">"budget"</span><span class="punct">: {</span>                          <span class="cmt">// session-scoped, not global; dollars + wall-clock, either optional</span>
     <span class="key">"enabled"</span><span class="punct">:</span> <span class="bool">true</span><span class="punct">,</span>
     <span class="key">"total"</span><span class="punct">:</span> <span class="num">25.00</span><span class="punct">,</span>
     <span class="key">"spent"</span><span class="punct">:</span> <span class="num">17.83</span><span class="punct">,</span>
-    <span class="key">"remaining"</span><span class="punct">:</span> <span class="num">7.17</span>
+    <span class="key">"remaining"</span><span class="punct">:</span> <span class="num">7.17</span><span class="punct">,</span>
+    <span class="key">"time_enabled"</span><span class="punct">:</span> <span class="bool">true</span><span class="punct">,</span>
+    <span class="key">"time_total_minutes"</span><span class="punct">:</span> <span class="num">1440</span><span class="punct">,</span>
+    <span class="key">"time_remaining_minutes"</span><span class="punct">:</span> <span class="num">862</span>
   <span class="punct">},</span>
 
   <span class="key">"learnings_count"</span><span class="punct">:</span> <span class="num">3</span><span class="punct">,</span>
@@ -568,7 +571,7 @@
           <text x="18" y="28" class="pill" fill="#5b3fa3">AGENTSHORE SQLITE</text>
           <text x="18" y="52" class="label">RL state &amp; memory</text>
           <text x="18" y="72" class="sublabel">plays, rewards, handoffs, learnings</text>
-          <text x="18" y="86" class="mono-dim">WAL mode, schema v3</text>
+          <text x="18" y="86" class="mono-dim">WAL mode, schema v4</text>
         </g>
 
         <g transform="translate(360,210)">
@@ -710,7 +713,7 @@
     <p>The architecture is mostly about not letting one LLM Agent's ambient state become the next LLM Agent's bug. Naming the working directory. Naming the identity. Naming the issue. Naming the scope. Writing it all down so the next loop iteration can read it back.</p>
 
     <div class="footer">
-      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
       <p>&copy; 2026 SuperSwink. All rights reserved.</p>
     </div>
   </div>

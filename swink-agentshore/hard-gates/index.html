@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Autonomy &amp; Hard Gates &middot; Swink AgentShore</title>
+  <title>Autonomy &amp; Hard Gates &middot; Swink AgentShore™</title>
   <meta name="description" content="The default control loop is autonomous. Hard gates are limited to correctness invariants and operations where proceeding would corrupt the session state.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@
 </head>
 <body>
   <div class="container">
-    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
 
     <div class="eyebrow">Autonomy posture</div>
     <h1>YOLO by design</h1>
@@ -92,12 +92,12 @@
 
     <div class="yolo-callout">
       <strong>The product posture</strong>
-      <p>Swink AgentShore is expected to create, edit, label, decompose, and close GitHub issues during normal operation. Human approval is <em>not</em> the default control loop.</p>
+      <p>Swink AgentShore™ is expected to create, edit, label, decompose, and close GitHub issues during normal operation. Human approval is <em>not</em> the default control loop.</p>
     </div>
 
     <h2>Why autonomy by default</h2>
     <p>A learned manager that asks permission for every move can't learn. The reward signal becomes noisy, the trajectory becomes a series of human-in-the-loop interventions, and the policy ends up modeling the human's patience more than the project's state.</p>
-    <p>So Swink AgentShore intentionally has a riskier autonomous posture than a chat-style assistant. The implementation favors <strong>moving work forward and creating traceable GitHub artifacts</strong> over pausing for approval. The control surface is the audit log, not the confirmation dialog.</p>
+    <p>So Swink AgentShore™ intentionally has a riskier autonomous posture than a chat-style assistant. The implementation favors <strong>moving work forward and creating traceable GitHub artifacts</strong> over pausing for approval. The control surface is the audit log, not the confirmation dialog.</p>
 
     <h2>What the agent does without asking</h2>
 
@@ -121,7 +121,7 @@
           <li>Reviewing your own PR</li>
           <li>Merging without an approval</li>
           <li>Merging with failing CI</li>
-          <li>Spending past the budget cap</li>
+          <li>Spending past the dollar cap, or running past the time cap</li>
           <li>Running plays without replay metadata</li>
           <li>Writing to GitHub without an audit record</li>
         </ul>
@@ -141,8 +141,8 @@
         <span>Merge PR requires an approved PR and passing CI before the play is dispatchable.</span>
       </div>
       <div class="gate">
-        <strong>Budget exhaustion</strong>
-        <span>Once the configured budget cap is hit, every play except End Session and approved budget-adjustment paths is masked.</span>
+        <strong>Budget &amp; time exhaustion</strong>
+        <span>Once the configured dollar cap or wall-clock time cap is hit, every play except End Session and approved budget-adjustment paths is masked, and the session drains.</span>
       </div>
       <div class="gate">
         <strong>Replay metadata</strong>
@@ -159,7 +159,7 @@
     </div>
 
     <h2>Scope, currently soft</h2>
-    <p>Scope validation enforces issue-inflation limits today. The policy is penalized (and in some cases masked) when issue count grows faster than work closes. Artifact drift detection is <em>evidence-only</em> in v1: Swink AgentShore records when a PR touches files outside the issue's apparent scope, but doesn't block on it until beads-native path boundaries are reliable enough to gate on.</p>
+    <p>Scope validation enforces issue-inflation limits today. The policy is penalized (and in some cases masked) when issue count grows faster than work closes. Artifact drift detection is <em>evidence-only</em> in v1: Swink AgentShore™ records when a PR touches files outside the issue's apparent scope, but doesn't block on it until beads-native path boundaries are reliable enough to gate on.</p>
 
     <p>Soft today, hard later. The interesting choice is admitting which is which.</p>
 
@@ -169,7 +169,7 @@
     <p>The right autonomy posture isn't "lock everything down." It's "lock down the things that, if they go wrong once, ruin everything. And let the agent do everything else."</p>
 
     <div class="footer">
-      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
       <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
     </div>
   </div>
