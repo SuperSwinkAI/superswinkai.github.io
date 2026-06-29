@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concurrency Over a Run &middot; Swink AgentShore™</title>
+  <meta name="description" content="Multiple harnesses run against one backlog at once. A busy-timeline of a single 8.2-hour overnight session shows concurrency and level of effort ebbing and flowing with the real state of the graph.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f6ff;
+      --panel-strong: #ffffff;
+      --text: #1f2940;
+      --muted: #6d768b;
+      --line: #d6deec;
+      --accent: #0f8a6c;
+      --grid: #009cd6;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem 1.5rem; }
+    a { color: var(--grid); text-decoration: none; }
+    a:hover { color: var(--accent); }
+    .back-link { display: inline-block; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+    .back-link:hover { color: var(--accent); }
+    .eyebrow { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grid); font-weight: 600; }
+    h1 { font-size: 2.5rem; margin: 0.5rem 0 0.5rem 0; letter-spacing: -0.02em; }
+    h2 { font-size: 1.4rem; margin: 2.5rem 0 0.5rem 0; }
+    .subtitle { font-size: 1.2rem; margin: 0.5rem 0; max-width: 640px; }
+    p { color: var(--muted); margin: 0.75rem 0; max-width: 720px; }
+    p strong { color: var(--text); font-weight: 600; }
+    em { color: var(--text); font-style: normal; font-weight: 500; }
+
+    .chart-figure {
+      margin: 2rem 0 0 0;
+      padding: 0;
+    }
+    .chart-figure .chart-eyebrow {
+      display: block;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .chart-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+    .chart-figure figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 720px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 1.75rem 0 1rem 0;
+    }
+    .spec {
+      padding: 1rem 1.1rem;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+    .spec .label { font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .spec .value { font-family: "JetBrains Mono", monospace; font-size: 1.3rem; color: var(--text); font-weight: 600; }
+    .spec .unit { font-size: 0.9rem; color: var(--muted); font-weight: 400; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 1.25rem 0 0 0; }
+    .legend .lg { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); }
+    .legend .sw { width: 14px; height: 14px; border: 1px solid var(--line); flex: none; }
+    .legend .sw.codex { background: #f4d35e; }
+    .legend .sw.claude { background: #d98245; }
+    .legend .sw.antigravity { background: #6e9bf0; }
+    .legend .sw.total { background: #1f2940; }
+    .legend .lg span { color: var(--muted); }
+
+    .reads { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.25rem 0; }
+    @media (max-width: 700px) { .reads { grid-template-columns: 1fr; } }
+    .read { padding: 1.1rem 1.25rem; background: var(--panel-strong); border: 1px solid var(--line); border-left: 4px solid var(--grid); }
+    .read strong { display: block; margin-bottom: 0.3rem; font-size: 0.98rem; }
+    .read span { font-size: 0.88rem; color: var(--muted); }
+
+    .footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted); }
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .spec-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/swink-agentshore" class="back-link">&larr; Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+
+    <div class="eyebrow">Concurrency over a run</div>
+    <h1>Effort that tracks the backlog</h1>
+    <p class="subtitle">Multiple harnesses run against one backlog at once. How many agents are working, and how hard the session is pushing, rises and falls with the real state of the graph, not a fixed schedule.</p>
+
+    <figure class="chart-figure">
+      <span class="chart-eyebrow">Busy timeline &middot; one session</span>
+      <img src="/images/agentshore-busy-timeline.png" alt="Stacked area chart titled Busy Timeline: stacked busy agents over a single session. Three harnesses (Codex, Claude Code, and Antigravity) are stacked at each completion sample, with total busy overlaid as a dark line. The session runs from 21:47 to 05:59 with 267 completion samples across 8.2 hours from a fleet configured for 18 concurrent agents, peaking at 16. Concurrency climbs to several peaks in the mid-teens, with a deep valley back to zero around 01:53.">
+      <figcaption>A single overnight run, 21:47 &rarr; 05:59. Each band is one harness; the dark line is total busy. The shape is the policy filling capacity when there's parallel work and backing off when the graph is blocked, with no human in the loop.</figcaption>
+    </figure>
+
+    <div class="spec-grid">
+      <div class="spec">
+        <div class="label">Session length</div>
+        <div class="value">8.2<span class="unit"> h</span></div>
+      </div>
+      <div class="spec">
+        <div class="label">Harnesses</div>
+        <div class="value">3<span class="unit"> enabled</span></div>
+      </div>
+      <div class="spec">
+        <div class="label">Configured fleet</div>
+        <div class="value">18<span class="unit"> agents</span></div>
+      </div>
+      <div class="spec">
+        <div class="label">Peak busy</div>
+        <div class="value">16<span class="unit"> agents</span></div>
+      </div>
+    </div>
+
+    <h2>Reading the timeline</h2>
+    <p>Every time an LLM Agent finishes a play, the session records how many agents were busy at that moment, split by which harness each one was running on. Those samples stack into bands; the dark line on top is the <em>total busy</em> count.</p>
+
+    <div class="legend">
+      <div class="lg"><span class="sw codex"></span> Codex</div>
+      <div class="lg"><span class="sw claude"></span> Claude Code</div>
+      <div class="lg"><span class="sw antigravity"></span> Antigravity</div>
+      <div class="lg"><span class="sw total"></span> Total busy <span>(overlaid line)</span></div>
+    </div>
+
+    <p>Read vertically, a tall stack means many agents were working the backlog in parallel right then. Read horizontally, the rise and fall is the policy responding to the state of the project graph over the night.</p>
+
+    <h2>The fleet for this run</h2>
+    <p>The fleet is declared in <code>agentshore.yaml</code> and surfaced at session setup. For this run, three runners were enabled (Antigravity, Claude Code, and Codex CLI) and Grok was left off. Each runner is allotted a mix of <strong>Small, Medium, and Large</strong> agents, the tiers the policy draws from when it sizes a play to the work.</p>
+
+    <figure class="chart-figure">
+      <span class="chart-eyebrow">Session setup &middot; agents</span>
+      <img src="/images/agentshore-agents-setup.png" alt="The AgentShore session setup screen, Agents step. An Agent runners panel sourced from the agentshore.yaml agents block lists Antigravity (S times 1, M times 2, L times 1) enabled, Claude Code (S times 1, M times 3, L times 1) enabled, Codex CLI (S times 1, M times 5, L times 3) enabled, and Grok CLI disabled. A fleet total bar reads S times 3, M times 10, L times 5, total 18.">
+      <figcaption>The agents block, surfaced at setup: Antigravity (S&times;1 &middot; M&times;2 &middot; L&times;1), Claude Code (S&times;1 &middot; M&times;3 &middot; L&times;1), and Codex CLI (S&times;1 &middot; M&times;5 &middot; L&times;3) enabled, Grok left off. Fleet total: 3 small, 10 medium, 5 large, 18 agents.</figcaption>
+    </figure>
+
+    <p>That fleet total, <strong>18 agents</strong>, is the ceiling for the night. The run peaked at 16 because the backlog never had enough size-matched work to fill all 18 slots at once: a Large slot only runs when there's Large-sized work ready for it, so the mix of pickable work topped out two short of the cap.</p>
+
+    <h2>Why it isn't a flat line</h2>
+    <p>Concurrency is bounded by <strong>parallelizable work</strong>, not by a fixed worker count. Even with 18 agents available, most of the night runs well below the cap. The level of effort follows the backlog: when issues are groomed and pickable, the policy spins up agents toward the fleet limit; when the graph is blocked (work waiting on review, a merge train, or a backlog that needs grooming before anything else can move), there's nothing safe to dispatch, and concurrency falls away.</p>
+    <p>The deep valley back to zero around <code style="font-family:'JetBrains Mono',monospace;font-size:0.88em;color:#244d69;background:var(--panel-strong);padding:0.1em 0.35em;border:1px solid var(--line);">01:53</code> is that: a moment where the next move was a single serial play (a reconcile or a groom) before parallel work opened back up. The policy isn't idling on purpose; it's waiting for the graph to give it something it's allowed to run.</p>
+
+    <div class="reads">
+      <div class="read">
+        <strong>Peaks = pickable work</strong>
+        <span>Several issues groomed to <em>pickup</em> at once, nothing blocking. The policy fills capacity.</span>
+      </div>
+      <div class="read">
+        <strong>Valleys = blocked graph</strong>
+        <span>Work waiting on review, merge, or grooming. Fewer plays are eligible, so fewer agents run.</span>
+      </div>
+    </div>
+
+    <h2>Three harnesses share the floor</h2>
+    <p>The bands aren't all one model. A single run mixes <strong>Codex</strong>, <strong>Claude Code</strong>, and <strong>Antigravity</strong> agents on the same backlog. That's not for variety; it's the substrate that lets <a href="/swink-agentshore/cross-framework-review">cross-framework review</a> hold: the agent that authors a change and the agent that reviews it run on different families, enforced as identity, not preference.</p>
+    <p>So a tall stack is also a mix: several harnesses working the same project at once, and the review of any one change is structurally guaranteed to come from a different family than the author. When the stack is short, that mix is still there, just fewer of each, because the backlog asked for less.</p>
+
+    <h2>What the shape tells you</h2>
+    <p>A flat, always-maxed line would mean the system was ignoring the graph and just keeping workers busy. A line that never rises would mean it couldn't parallelize at all. This shape, climbing when work piles up and collapsing honestly when it runs out, is the <a href="/swink-agentshore/ppo-policy">PPO policy</a> tracking real eligibility: dispatch when there's safe parallel work, back off when there isn't, and do it for 8.2 hours with no one watching.</p>
+    <p>You can watch the same thing live in <a href="/swink-agentshore/dashboard">the Dashboard</a> or <a href="/swink-agentshore/tui">the TUI</a>. This page is what it looks like after the run, in one frame.</p>
+
+    <div class="footer">
+      <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
+      <p style="margin: 0.75rem 0 0 0;">&copy; 2026 SuperSwink. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

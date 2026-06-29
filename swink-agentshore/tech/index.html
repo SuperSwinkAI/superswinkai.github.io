@@ -126,14 +126,16 @@
       color: var(--muted);
       flex-grow: 1;
     }
-    .feature .learn-more {
+    .feature .learn-more, .surface .learn-more {
       display: inline-block;
       margin-top: 0.75rem;
       font-size: 0.85rem;
       color: var(--accent);
       font-weight: 500;
     }
-    .feature .learn-more:hover { text-decoration: underline; }
+    .feature .learn-more:hover, .surface .learn-more:hover { text-decoration: underline; }
+    .surface .learn-more { margin-top: auto; padding-top: 0.6rem; }
+    .surface-secondary .learn-more { color: var(--grid); }
 
     .surface-grid {
       display: grid;
@@ -289,6 +291,11 @@
           <span>Every spawned subprocess gets a six-piece envelope assembled per play: rendered SKILL.md, beads task graph, GitHub mirror, identity overlay, working directory, and limits. Nothing leaks in from the calling shell.</span>
           <a href="/swink-agentshore/dispatch" class="learn-more">The dispatch envelope &rarr;</a>
         </div>
+        <div class="feature">
+          <strong>Multiple harnesses, effort that tracks the work</strong>
+          <span>Codex, Claude Code, and Antigravity agents run against one backlog at once. Concurrency and level of effort ebb and flow with the real state of the graph. The policy pushes when work is pickable and backs off when it's blocked.</span>
+          <a href="/swink-agentshore/concurrency" class="learn-more">Concurrency over a run &rarr;</a>
+        </div>
       </div>
     </div>
 
@@ -309,11 +316,12 @@
             <li>Session start, stop, and status</li>
             <li>Configs for agent tiers, budget, and identity</li>
           </ul>
+          <a href="/swink-agentshore/dashboard" class="learn-more">Inside the Dashboard &rarr;</a>
         </div>
         <div class="surface surface-secondary">
           <div class="surface-label">For headless &amp; CI</div>
           <h3>agentshore CLI</h3>
-          <p>The full orchestrator surface, no UI. For CI, scripting, and power users.</p>
+          <p>The full orchestrator surface for CI, scripting, and power users, plus an interactive TUI for watching a session from the terminal.</p>
           <pre class="cli"><span class="comment"># initialize a new project</span>
 <span class="prompt">$</span> <span class="cmd">agentshore init</span>
 
@@ -322,6 +330,7 @@
 
 <span class="comment"># open the dashboard against a running session</span>
 <span class="prompt">$</span> <span class="cmd">agentshore dashboard</span></pre>
+          <a href="/swink-agentshore/tui" class="learn-more">Same window, from the terminal &rarr;</a>
         </div>
       </div>
     </div>

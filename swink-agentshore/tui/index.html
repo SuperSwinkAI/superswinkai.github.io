@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The TUI &middot; Swink AgentShore™</title>
-  <meta name="description" content="A breakdown of the Swink AgentShore™ TUI, the terminal companion to the Dashboard. Read-only by design — built so the Human Engineer can leave the keyboard for hours and trust the run.">
+  <meta name="description" content="A breakdown of the Swink AgentShore™ TUI, the terminal companion to the Dashboard. Read-only by design, built so the Human Engineer can leave the keyboard for hours and trust the run.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -258,47 +258,48 @@
 
     <div class="read-only-callout">
       <span class="label">The posture</span>
-      <p>The TUI is a live monitor over the same session state the Dashboard renders. It does not let you assign work, retry a play, or steer an agent. The footer keys are navigation, inspection, and alarm-time escape hatches &mdash; not steering. The policy still picks every play.</p>
+      <p>The TUI is a live monitor over the same session state the Dashboard renders. It does not let you assign work, retry a play, or steer an agent. The footer keys are navigation, inspection, and alarm-time escape hatches, not steering. The policy still picks every play.</p>
     </div>
 
-    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore™ ships two UIs: the <a href="/swink-agentshore/dashboard">Dashboard</a> (the desktop GUI, with the pixel-art floorplan) and the <strong>TUI</strong> (this page). Both subscribe to the same audit log. Pick whichever fits where you're sitting &mdash; on the laptop after dinner, or over SSH from a hotel.</p>
+    <p style="margin-top: 1rem; font-size: 0.92rem;">Swink AgentShore™ ships two UIs: the <a href="/swink-agentshore/dashboard">Dashboard</a> (the desktop GUI, with the pixel-art floorplan) and the <strong>TUI</strong> (this page). Both subscribe to the same audit log. Pick whichever fits where you're sitting: on the laptop after dinner, or over SSH from a hotel.</p>
 
     <figure class="term-figure">
       <img src="/images/agentshore-tui.png" alt="The Swink AgentShore™ TUI: header, agents panel, recent plays table, a bottom row of epic closure / budget / work queue, the session line, and a footer of key bindings.">
-      <figcaption>The TUI mid-session. One agent on <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">seed_project</code>. Bottom row: Epic Closure with the global bar tracking against 665 tasks, Budget at $0.05 / $200, Work Queue showing 200 issues / 7 PRs / next up #181. The footer lists every binding the TUI exposes &mdash; the actual control surface.</figcaption>
+      <figcaption>The TUI mid-session. One agent on <code style="font-family:'JetBrains Mono',monospace;font-size:0.86em">seed_project</code>. Bottom row: Epic Closure with the global bar tracking against 665 tasks, Budget at $0.05 / $200, Work Queue showing 200 issues / 7 PRs / next up #181. The footer lists every binding the TUI exposes, the actual control surface.</figcaption>
     </figure>
 
     <div class="section">
       <div class="eyebrow">Why a TUI at all</div>
-      <h2>The Dashboard is the home, the TUI is the laptop on the train</h2>
-      <p>The Dashboard is the default surface &mdash; pixel-art office floorplan, full theme system, the works. But sessions run for hours, and the Human Engineer isn't always on the machine that started them. The TUI exists so the same read-only window works over SSH, on a thin client, or on a laptop where you don't want a Tauri window resident in memory.</p>
-      <p>Both UIs read the same audit log. <strong>Closing one doesn't affect the run.</strong> Opening the other doesn't either. They are observers, not the orchestrator.</p>
+      <h2>The TUI came first; the Dashboard came when a glance needed more</h2>
+      <p>The TUI was the original interface. It ran the whole loop fine, right up until watching a long session meant wanting to see more activity at a glance. That is what the Dashboard is for: the pixel-art office floorplan, the agent roster, the full theme system. The TUI didn't get retired. It's the same backend behind a simpler, less rich surface.</p>
+      <p>So you choose how much UI a run gets. <strong>Fully headless</strong> for CI and scripting, with everything still written to the audit log. The <strong>TUI</strong> when you like a terminal, or you're on SSH, a thin client, or a machine where you don't want a Tauri window resident in memory. The <strong>Dashboard</strong> when you want the richest view of what's happening.</p>
+      <p>Every surface reads the same audit log, and nothing about watching changes the run. <strong>Closing one doesn't affect it.</strong> Opening another doesn't either. The UIs are observers, not the orchestrator.</p>
     </div>
 
     <div class="section">
       <div class="eyebrow">The breakdown</div>
       <h2>Eight regions, one screen</h2>
-      <p class="section-lead">Each region renders a slice of the latest session snapshot. None of them are interactive in the steering sense &mdash; the footer keys let you navigate, inspect, pause, and end the session, but never assign a play or override the policy mid-tick.</p>
+      <p class="section-lead">Each region renders a slice of the latest session snapshot. None of them are interactive in the steering sense. The footer keys let you navigate, inspect, pause, and end the session, but never assign a play or override the policy mid-tick.</p>
 
       <div class="region-grid">
         <div class="region">
           <div class="region-label">Top &middot; alert-only</div>
           <h3>1. The alert bar</h3>
-          <p>Hidden by default. Only visible when something needs attention &mdash; a loop-detection escalation, a feedback-needed prompt, or a session-paused notice. The TUI surfaces the alarm; it does not auto-resolve it.</p>
+          <p>Hidden by default. Only visible when something needs attention: a loop-detection escalation, a feedback-needed prompt, or a session-paused notice. The TUI surfaces the alarm; it does not auto-resolve it.</p>
           <div class="reads"><strong>Shows when:</strong> loop_detected &middot; feedback_requested &middot; session_paused</div>
         </div>
 
         <div class="region center">
           <div class="region-label">Upper pane</div>
           <h3>2. Agents &amp; Active Plays</h3>
-          <p>Up to ten agents in a dense table: live status glyph, name, state, current play, target (issue or PR), elapsed time, context window in use, and dollar cost. The roster the Dashboard renders as sprites &mdash; in one screen of text.</p>
+          <p>Up to ten agents in a dense table: live status glyph, name, state, current play, target (issue or PR), elapsed time, context window in use, and dollar cost. The roster the Dashboard renders as sprites, in one screen of text.</p>
           <div class="reads"><strong>Status:</strong> <span style="color:var(--accent)">◉</span> busy &middot; <span style="color:var(--muted)">●</span> idle &middot; <span style="color:#c2410c">✕</span> error &middot; <span style="color:var(--muted)">—</span> terminated</div>
         </div>
 
         <div class="region">
           <div class="region-label">Middle pane</div>
           <h3>3. Recent Plays (last 5)</h3>
-          <p>A scrollable DataTable of the most recent completed plays, newest first. Each row: play ID, play name, result, the reward delta (&Delta;) the policy received, cost, and duration. This is the trajectory the policy is learning from &mdash; surfaced read-only.</p>
+          <p>A scrollable DataTable of the most recent completed plays, newest first. Each row: play ID, play name, result, the reward delta (&Delta;) the policy received, cost, and duration. This is the trajectory the policy is learning from, surfaced read-only.</p>
           <div class="reads"><strong>Columns:</strong> ID &middot; Play &middot; Result &middot; &Delta; &middot; Cost &middot; Duration</div>
         </div>
 
@@ -352,14 +353,14 @@
           <dt><kbd>shift + ^q</kbd> End (hard)</dt>
           <dd>Cut the session now. In-flight plays are aborted. Reserved for the cases where graceful drain isn't fast enough.</dd>
         </dl>
-        <p>Once a drain starts, the shutdown screen adds <kbd>q</kbd> Quit and <kbd>r</kbd> Report &mdash; the only place those two keys are live.</p>
+        <p>Once a drain starts, the shutdown screen adds <kbd>q</kbd> Quit and <kbd>r</kbd> Report, the only place those two keys are live.</p>
       </div>
 
       <div class="keys">
         <h3>Pause</h3>
         <dl>
           <dt><kbd>p</kbd> Pause / Resume</dt>
-          <dd>Holds the dispatcher. In-flight plays finish, no new plays start, the session sits idle until you resume. The one in-session lever &mdash; useful when the alarm is "let me look at this before another play fires."</dd>
+          <dd>Holds the dispatcher. In-flight plays finish, no new plays start, the session sits idle until you resume. The one in-session lever, useful when the alarm is "let me look at this before another play fires."</dd>
         </dl>
       </div>
 
@@ -367,19 +368,19 @@
         <h3>Navigation &amp; inspection</h3>
         <dl>
           <dt><kbd>g</kbd> Epics</dt>
-          <dd>Jump to the epics screen &mdash; the full per-epic closure breakdown the dashboard summarizes in three bars.</dd>
+          <dd>Jump to the epics screen: the full per-epic closure breakdown the dashboard summarizes in three bars.</dd>
           <dt><kbd>d</kbd> Agent</dt>
           <dd>Open the selected agent's detail screen. Trajectory, recent plays, context, spend. Read-only, like the rest.</dd>
           <dt><kbd>i</kbd> Issues</dt>
-          <dd>The issue backlog as Swink AgentShore™ sees it &mdash; the open work the policy is sequencing through GitHub.</dd>
+          <dd>The issue backlog as Swink AgentShore™ sees it: the open work the policy is sequencing through GitHub.</dd>
           <dt><kbd>l</kbd> Learnings</dt>
-          <dd>Session learnings and agent handoffs &mdash; the notes carried forward into later plays' context.</dd>
+          <dd>Session learnings and agent handoffs: the notes carried forward into later plays' context.</dd>
           <dt><kbd>?</kbd> Help</dt>
           <dd>The full keymap and screen index, so the footer doesn't have to.</dd>
         </dl>
       </div>
 
-      <p>Two exits, one pause, five inspection views. Nothing in the set lets you reassign a play, override a single decision, or steer an agent's prompt. If the binding you need isn't there, the answer is upstream &mdash; tighter spec, adjusted budget, a hard gate the catalog should have. Not a richer TUI.</p>
+      <p>Two exits, one pause, five inspection views. Nothing in the set lets you reassign a play, override a single decision, or steer an agent's prompt. If the binding you need isn't there, the answer is upstream: tighter spec, adjusted budget, a hard gate the catalog should have. Not a richer TUI.</p>
     </div>
 
     <div class="section">

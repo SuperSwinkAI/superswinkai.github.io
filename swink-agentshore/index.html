@@ -258,12 +258,27 @@
       border: 1px solid var(--line);
     }
     .run-figure figcaption {
-      margin-top: 0.75rem;
-      font-size: 0.85rem;
-      color: var(--muted);
+      margin-top: 0.9rem;
+      font-size: 1rem;
+      color: var(--text);
       line-height: 1.55;
       max-width: 720px;
     }
+    .run-figure .run-headline {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .run-figure .run-links {
+      display: block;
+      margin-top: 0.55rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .run-figure .run-links a { font-weight: 600; }
 
     .loop-figure {
       position: relative;
@@ -547,7 +562,11 @@
         preload="metadata"
         aria-label="Screen recording of Swink AgentShore™ working through a backlog of issues unattended."
       ></video>
-      <figcaption>Swink AgentShore™ working a backlog on its own &mdash; the RL Agent picking the next play, LLM Agents doing the build. Two UIs: <a href="/swink-agentshore/dashboard">the Dashboard &rarr;</a> and <a href="/swink-agentshore/tui">the TUI &rarr;</a>.</figcaption>
+      <figcaption>
+        <span class="run-headline">Swink AgentShore™ working a backlog on its own.</span>
+        The RL Agent picks the next play; LLM Agents do the build across multiple harnesses at once, ebbing and flowing with the backlog.
+        <span class="run-links"><a href="/swink-agentshore/concurrency">See the concurrency profile of this run &rarr;</a></span>
+      </figcaption>
     </figure>
 
     <div class="section">
