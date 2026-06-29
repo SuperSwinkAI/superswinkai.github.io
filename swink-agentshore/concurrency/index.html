@@ -61,6 +61,35 @@
       max-width: 720px;
     }
 
+    .inset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 1.5rem 0 0 0;
+    }
+    @media (max-width: 700px) { .inset-grid { grid-template-columns: 1fr; } }
+    .inset-figure { margin: 0; padding: 0; }
+    .inset-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+    .inset-figure figcaption {
+      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .inset-figure .inset-stat {
+      display: block;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.92rem;
+      margin-bottom: 0.15rem;
+    }
+
     .spec-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -176,6 +205,29 @@
     <h2>What the shape tells you</h2>
     <p>A flat, always-maxed line would mean the system was ignoring the graph and just keeping workers busy. A line that never rises would mean it couldn't parallelize at all. This shape, climbing when work piles up and collapsing honestly when it runs out, is the <a href="/swink-agentshore/ppo-policy">PPO policy</a> tracking real eligibility: dispatch when there's safe parallel work, back off when there isn't, and do it for 8.2 hours with no one watching.</p>
     <p>You can watch the same thing live in <a href="/swink-agentshore/dashboard">the Dashboard</a> or <a href="/swink-agentshore/tui">the TUI</a>. This page is what it looks like after the run, in one frame.</p>
+
+    <h2>Different runs, different concurrency</h2>
+    <p>No two runs look the same. The shape is a fingerprint of the backlog, the fleet, and how much of the work could run in parallel at the time. Two more sessions, the same read-only chart:</p>
+
+    <div class="inset-grid">
+      <figure class="inset-figure">
+        <img src="/images/agentshore-busy-timeline-15h.png" alt="Stacked busy-agents chart for a 15.3-hour session with 468 completion samples and a peak of 23 concurrent agents. Antigravity, Codex, and Claude Code are stacked with total busy overlaid; concurrency rides in the mid-teens through the night and spikes past 20 toward the morning.">
+        <figcaption><span class="inset-stat">15.3 hours, peak 23</span>468 completion samples. A larger fleet on a deep backlog: concurrency holds in the mid-teens overnight and spikes past 20 toward the end.</figcaption>
+      </figure>
+      <figure class="inset-figure">
+        <img src="/images/agentshore-busy-timeline-6h.png" alt="Stacked busy-agents chart for a 5.6-hour session with 137 completion samples and a peak of 10 concurrent agents. Codex, Claude Code, and Antigravity are stacked with total busy overlaid; concurrency tops out around 10 and tapers to zero by the end.">
+        <figcaption><span class="inset-stat">5.6 hours, peak 10</span>137 completion samples. A shorter run on a smaller fleet, topping out around 10 and tapering off as the backlog drains.</figcaption>
+      </figure>
+    </div>
+
+    <h2>Watch it live, too</h2>
+    <p>This page is the after-the-fact view. The same concurrency is visible in real time in the Dashboard, under the <strong>Stats</strong> tab: a rolling-window <strong>Fleet Concurrency</strong> chart stacked by harness, with current and peak busy counts beside the per-agent metrics.</p>
+
+    <figure class="chart-figure">
+      <span class="chart-eyebrow">Dashboard &middot; stats</span>
+      <img src="/images/agentshore-stats-concurrency.png" alt="The AgentShore Dashboard on the Stats tab. A Fleet Concurrency area chart over a rolling 20-minute window shows current 3 busy and peak 4, stacked by harness (Claude Code, Codex CLI, Grok CLI) with a total concurrency line, beside a per-agent metrics table and the agents roster.">
+      <figcaption>Real-time concurrency is also visible in the Dashboard under the Stats tab: a rolling 20-minute Fleet Concurrency chart, current and peak busy, stacked by harness.</figcaption>
+    </figure>
 
     <div class="footer">
       <a href="/swink-agentshore" class="back-link">&larr; Back to Swink AgentShore™</a> <span class="back-link" style="margin:0 0.15rem;" aria-hidden="true">/</span> <a href="/swink-agentshore/tech" class="back-link">Tech</a>
