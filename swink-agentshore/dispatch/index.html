@@ -218,7 +218,7 @@
       Most of the work isn't generating code. It's not letting the agent inherit ambient state it didn't earn.
     </div>
 
-    <!-- =================================================================== -->
+    
     <h2><span class="num">01 / Before pickup</span>An issue gets groomed through four or five plays before any LLM Agent gets to touch code.</h2>
     <p>By the time the envelope is sealed, the issue inside it has already been through a pipeline that operates on the BEADS graph &mdash; not on source files. None of these earlier plays ship a PR. Skip them, and the implementer ends up burning tokens guessing at scope on an ambient-from-GitHub issue with no acceptance criteria, no parent epic, and no dependency edges.</p>
 
@@ -345,7 +345,7 @@
     </div>
     <div class="caption"><b>Fig. 1</b> &middot; The pre-pickup pipeline. The RL Agent picks which stage to run next based on play preconditions &mdash; no hard sequencer enforces order, but the gates make the order de-facto emergent.</div>
 
-    <!-- =================================================================== -->
+    
     <h2><span class="num">02 / The envelope</span>Every dispatch is six pieces, assembled, then handed over.</h2>
     <p>When the RL Agent picks a play and the parameter resolver picks the LLM Agent and the issue, this is the shape of what gets pushed across the subprocess boundary. Nothing here is typed by hand at dispatch time. Each piece has a source the rest of the system is already maintaining.</p>
 
@@ -465,7 +465,7 @@
     </div>
     <div class="caption"><b>Fig. 2</b> &middot; The six pieces of context AgentShore™ assembles per dispatch. None of them come from the shell environment the LLM Agent happened to be launched in.</div>
 
-    <!-- =================================================================== -->
+    
     <h2><span class="num">03 / Inside the context file</span>The structured side-channel the LLM Agent reads before it does anything.</h2>
     <p>The biggest piece in the envelope &mdash; the rendered SKILL.md &mdash; is natural language. But the LLM Agent also reads a structured JSON snapshot of the world AgentShore thinks it's stepping into. The path is injected via <code>--append-system-prompt "Context file: …"</code>, and the rendered prompt instructs the LLM Agent to open it first. The file is written through a temp-file + <code>os.replace()</code>, so a half-written payload can never be observed by a racing reader.</p>
 
@@ -533,7 +533,7 @@
     </div>
     <div class="caption"><b>Fig. 3</b> &middot; A representative context payload. Top-level keys are stable; the <span class="k">params</span> sub-dict varies by play.</div>
 
-    <!-- =================================================================== -->
+    
     <h2><span class="num">04 / Where the pieces come from</span>Four systems, already maintaining themselves, fold into one envelope.</h2>
     <p>The trick isn't building any one of these pieces. It's keeping their sources separated so each one can be authoritative for its own slice. BEADS owns the task graph. GitHub owns the human conversation. <code>agentshore.yaml</code> owns identity. AgentShore's SQLite owns the RL state and the per-session memory.</p>
 
@@ -650,7 +650,7 @@
     </div>
     <div class="caption"><b>Fig. 4</b> &middot; The assembler doesn't author context. It indexes systems that already track it &mdash; and reassembles the envelope every dispatch.</div>
 
-    <!-- =================================================================== -->
+    
     <h2><span class="num">05 / What the LLM Agent doesn't get to inherit</span>The shortest path to a broken loop is letting the subprocess pick its own state.</h2>
 
     <div class="figure">
@@ -702,7 +702,7 @@
     </div>
     <div class="caption"><b>Fig. 5</b> &middot; The failure modes of unattended runs live on the left. The boring discipline on the right is what makes the loop self-driving.</div>
 
-    <!-- =================================================================== -->
+    
     <h2><span class="num">06 / After the envelope is opened</span>The dispatch isn't done when the subprocess exits.</h2>
     <p>Every play ends with a post-hoc issue-inflation check via <code>validate_scope()</code>, a reward computed against the BEADS alignment delta, and a row appended to <code>dispatch_replay</code> so the dispatch can be reconstructed later. The same machinery that built the envelope reads it back &mdash; which is the only reason the next dispatch knows anything about this one.</p>
 
